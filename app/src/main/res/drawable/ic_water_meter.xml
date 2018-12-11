@@ -10,8 +10,12 @@
                 android:color="#C0C0C0"
                 />
             <size
-                android:height="120dp"
-                android:width="120dp"
+                android:height="200dp"
+                android:width="200dp"
+                />
+            <solid
+                android:color="#99b3e6"
+
                 />
         </shape>
 

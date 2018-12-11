@@ -1,9 +1,17 @@
 <resources>
     <string name="app_name">Water Metre Reader</string>
     <string name="water_meter_in_cubic_meter">Water meter reader in cubic meters</string>
-    <string name="app_sub_title">smart water meter reader</string>
+    <string name="app_sub_title">smart water metre reader</string>
     <string name="login_text">Log In</string>
     <string name="username_hint">username</string>
     <string name="password_hint">password</string>
     <string name="todo">TODO</string>
+    <string name="_01234">01234</string>
+    <string name="_6">6</string>
+    <string name="_7">7</string>
+    <string name="_8">8</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>
