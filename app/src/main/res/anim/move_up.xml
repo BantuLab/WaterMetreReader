@@ -10,20 +10,16 @@
         android:startOffset="0"
         />
     <translate
-        android:fromYDelta="-100%p"
+        android:fromYDelta="100%p"
         android:toYDelta="0%p"
         android:startOffset="20"
-        android:duration="3000"/>
+        android:duration="2800"/>
     <alpha
-        android:duration="800"
+        android:duration="1000"
         android:fromAlpha="1.0"
         android:toAlpha="0.0"
         android:startOffset="2000"
         />
-    <translate
-        android:fromYDelta="50%p"
-        android:toYDelta="0%p"
-        android:startOffset="2800"
-        android:duration="1500"/>
+
 
 </set>

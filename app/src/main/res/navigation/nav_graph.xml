@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/dest_login_frragment">
+
+    <fragment
+        android:id="@+id/dest_login_frragment"
+        android:name="com.bantulogic.core.watermetrereader.UI.Fragments.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/dest_home_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dest_home_fragment"
+        android:name="com.bantulogic.core.watermetrereader.UI.Fragments.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_readingsFragment"
+            app:destination="@id/dest_readings_fragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_dashboardFragment"
+            app:destination="@id/dest_dashboard_fragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_logoutFragment"
+            app:destination="@id/dest_logout_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/dest_readings_fragment"
+        android:name="com.bantulogic.core.watermetrereader.UI.Fragments.ReadingsFragment"
+        android:label="fragment_readings"
+        tools:layout="@layout/fragment_readings" />
+    <fragment
+        android:id="@+id/dest_dashboard_fragment"
+        android:name="com.bantulogic.core.watermetrereader.UI.Fragments.DashboardFragment"
+        android:label="fragment_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+    <fragment
+        android:id="@+id/dest_logout_fragment"
+        android:name="com.bantulogic.core.watermetrereader.UI.Fragments.LogoutFragment"
+        android:label="fragment_logout"
+        tools:layout="@layout/fragment_logout" />
+</navigation>
