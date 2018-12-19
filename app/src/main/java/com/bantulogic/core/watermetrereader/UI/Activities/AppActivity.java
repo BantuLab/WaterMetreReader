@@ -1,12 +1,21 @@
 package com.bantulogic.core.watermetrereader.UI.Activities;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.bantulogic.core.watermetrereader.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import androidx.navigation.ui.NavigationUI;
 
 public class AppActivity extends AppCompatActivity {
 
@@ -14,6 +23,24 @@ public class AppActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app);
+
+        //Setup Bottom Navigation Menu
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        NavController navController = navHostFragment.getNavController();
+        final BottomNavigationView bottomNavigationView = findViewById(R.id.nav_bottom_nav_view);
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+
+        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
+            @Override
+            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
+                if (destination.getParent().getId() == R.id.nested_home_nav_graph){
+                    bottomNavigationView.setVisibility(View.VISIBLE);
+                }
+                else {
+                    bottomNavigationView.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     @Override

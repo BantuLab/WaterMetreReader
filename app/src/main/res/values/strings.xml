@@ -28,4 +28,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="activity_main_label">MainActivity</string>
+    <string name="title_readings_fragment">Water Metre Readings</string>
+    <string name="title_logout_fragment">Logout</string>
+    <string name="title_dashboard_fragment">Dashboard</string>
 </resources>
