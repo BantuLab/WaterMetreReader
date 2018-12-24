@@ -10,10 +10,14 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.bantulogic.core.watermetrereader.R;
+import com.bantulogic.core.watermetrereader.Utilities.TabHistory;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.ArrayList;
 
 import androidx.navigation.ui.NavigationUI;
 
@@ -25,14 +29,16 @@ public class AppActivity extends AppCompatActivity {
         setContentView(R.layout.activity_app);
 
         //Setup Bottom Navigation Menu
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.app_nav_host_fragment);
         NavController navController = navHostFragment.getNavController();
         final BottomNavigationView bottomNavigationView = findViewById(R.id.nav_bottom_nav_view);
+
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
             public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
+               Log.d("onDestinationChanged", Integer.toString(destination.getParent().getId()));
                 if (destination.getParent().getId() == R.id.nested_home_nav_graph){
                     bottomNavigationView.setVisibility(View.VISIBLE);
                 }
@@ -46,6 +52,6 @@ public class AppActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
 //        return super.onSupportNavigateUp();
-        return Navigation.findNavController(this, R.id.nav_host_fragment).navigateUp();
+        return Navigation.findNavController(this, R.id.app_nav_host_fragment).navigateUp();
     }
 }

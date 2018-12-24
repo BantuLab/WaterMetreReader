@@ -9,14 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UI.Activities.AppActivity">
+        <activity android:name=".UI.Activities.AppActivity" android:screenOrientation="portrait" android:configChanges="keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <nav-graph android:value="@navigation/nav_graph" />
+            <nav-graph android:value="@navigation/app_nav_graph" />
         </activity>
     </application>
 

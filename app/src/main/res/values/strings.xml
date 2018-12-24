@@ -31,4 +31,6 @@
     <string name="title_readings_fragment">Water Metre Readings</string>
     <string name="title_logout_fragment">Logout</string>
     <string name="title_dashboard_fragment">Dashboard</string>
+    <string name="title_raeding_detail">Reading Details</string>
+    <string name="view_reading_details">View Reading Details</string>
 </resources>

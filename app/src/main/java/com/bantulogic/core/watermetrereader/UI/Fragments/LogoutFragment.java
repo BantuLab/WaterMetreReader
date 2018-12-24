@@ -47,16 +47,24 @@ public class LogoutFragment extends Fragment {
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-//                        getActivity().finish();
-                        Navigation.findNavController(getView()).navigate(R.id.dest_login_fragment);
+                        Navigation.findNavController(getParentFragment().getView()).navigate(R.id.action_dest_logout_fragment_to_dest_login_fragment);
                     }
-
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.cancel();
-                        Navigation.findNavController(getView()).navigate(R.id.dest_readings_fragment);
+                        Navigation.findNavController(getParentFragment().getView()).navigate(R.id.action_dest_logout_fragment_to_dest_home_fragment);
+
+                    }
+                })
+                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+//                        Navigation.findNavController(getParentFragment().getView()).navigate(R.id.action_dest_logout_fragment_to_dest_home_fragment);
+//                        dialogInterface.cancel();
+//                        Navigation.findNavController(getParentFragment().getView()).navigate(R.id.action_dest_logout_fragment_to_dest_home_fragment);
+//                        dialogInterface.cancel();
                     }
                 })
                 .show();

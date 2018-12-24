@@ -39,18 +39,20 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mBtnLogin = view.findViewById(R.id.btnLogin);
-        mBtnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //
-                //*After you retrieve a NavController, use its navigate() method to navigate to a destination.
-                //*The navigate() method accepts a resource ID. The ID can be the ID of a specific destination
-                //*in the navigation graph or of an action. Using the ID of the action, instead of the resource
-                //*ID of the destination, has advantages, such as associating transitions with your navigation.
-                //* For more on transitions, refer to Create a transition between destinations: https://developer.android.com/topic/libraries/architecture/navigation/navigation-implementing#Create-transition.
-                //
-                Navigation.findNavController(view).navigate(R.id.action_dest_login_fragment_to_dest_nested_home_nav_graph);
-            }
-        });
+        mBtnLogin.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.nested_home_nav_graph, null));
+//        mBtnLogin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //
+//                //*After you retrieve a NavController, use its navigate() method to navigate to a destination.
+//                //*The navigate() method accepts a resource ID. The ID can be the ID of a specific destination
+//                //*in the navigation graph or of an action. Using the ID of the action, instead of the resource
+//                //*ID of the destination, has advantages, such as associating transitions with your navigation.
+//                //* For more on transitions, refer to Create a transition between destinations: https://developer.android.com/topic/libraries/architecture/navigation/navigation-implementing#Create-transition.
+//                //
+//
+//                Navigation.findNavController(view).navigate(R.id.action_dest_login_fragment_to_dest_home_nav_graph);
+//            }
+//        });
     }
 }
