@@ -3,29 +3,114 @@ package com.bantulogic.core.watermetrereader.Data.DataStore.Entities;
 import com.bantulogic.core.watermetrereader.Utilities.Converters;
 
 import java.util.Date;
-import java.util.UUID;
-
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 @Entity
 @TypeConverters(Converters.class)
 public class User {
-    @NonNull
     @PrimaryKey
-    public String user_id;
-    public String username;
-    public String first_name;
-    public String last_name;
-    public String sex;
-    public Date date_of_birth;
-    public String user_type;
-    public String user_role;
+    @NonNull
+    @ColumnInfo(name = "user_id")
+    private String mUserId;
+    @ColumnInfo(name = "username")
+    private String mUsername;
+    @ColumnInfo(name="first_name")
+    private String mFirstName;
+    @ColumnInfo(name="last_name" )
+    private String mLastName;
+    @ColumnInfo(name="sex")
+    private String mSex;
+    @ColumnInfo(name="date_of_birth")
+    private Date mDateOfBirth;
+    @ColumnInfo(name="user_type")
+    private String mUserType;
+    @ColumnInfo(name="user_role")
+    private String mUserRole;
 
-    public User(){
+    public User(@NonNull String userId,
+                        String username,
+                        String lastName,
+                        String firstName,
+                        String sex,
+                        Date dateOfBirth,
+                        String userType,
+                        String userRole
+    ){
+        this.mUserId = userId;
+        this.mUsername = username;
+        this.mLastName = lastName;
+        this.mFirstName = firstName;
+        this.mSex = sex;
+        this.mDateOfBirth = dateOfBirth;
+        this.mUserType = userType;
+        this.mUserRole = userRole;
+    }
+
+    public String getUserId() {
+        return mUserId;
+    }
+
+    public void setUserId(String userId) {
+        mUserId = userId;
+    }
+
+    public String getUsername() {
+        return mUsername;
+    }
+
+    public void setUsername(String username) {
+        mUsername = username;
+    }
+
+    public String getFirstName() {
+        return mFirstName;
+    }
+
+    public void setFirstName(String firstName) {
+        mFirstName = firstName;
+    }
+
+    public String getLastName() {
+        return mLastName;
+    }
+
+    public void setLastName(String lastName) {
+        mLastName = lastName;
+    }
+
+    public String getSex() {
+        return mSex;
+    }
+
+    public void setSex(String sex) {
+        mSex = sex;
+    }
+
+    public Date getDateOfBirth() {
+        return mDateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        mDateOfBirth = dateOfBirth;
+    }
+
+    public String getUserType() {
+        return mUserType;
+    }
+
+    public void setUserType(String userType) {
+        mUserType = userType;
+    }
+
+    public String getUserRole() {
+        return mUserRole;
+    }
+
+    public void setUserRole(String userRole) {
+        mUserRole = userRole;
     }
 }
