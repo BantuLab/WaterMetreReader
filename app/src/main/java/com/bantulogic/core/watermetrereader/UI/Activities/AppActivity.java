@@ -8,16 +8,12 @@ import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
 import com.bantulogic.core.watermetrereader.R;
-import com.bantulogic.core.watermetrereader.Utilities.TabHistory;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import java.util.ArrayList;
 
 import androidx.navigation.ui.NavigationUI;
 

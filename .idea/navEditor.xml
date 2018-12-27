@@ -99,7 +99,7 @@
                                           <LayoutPositions />
                                         </value>
                                       </entry>
-                                      <entry key="action_dest_logout_fragment_to_nav_graph">
+                                      <entry key="action_dest_logout_fragment_to_dest_login_fragment">
                                         <value>
                                           <LayoutPositions />
                                         </value>
@@ -222,7 +222,7 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_dest_login_fragment_to_dest_nested_home_nav_graph">
+                            <entry key="action_dest_login_fragment_to_dest_home_nav_graph">
                               <value>
                                 <LayoutPositions />
                               </value>
