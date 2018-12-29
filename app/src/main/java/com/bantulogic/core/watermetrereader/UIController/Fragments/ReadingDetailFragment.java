@@ -1,18 +1,14 @@
-package com.bantulogic.core.watermetrereader.UI.Fragments;
+package com.bantulogic.core.watermetrereader.UIController.Fragments;
 
 
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.bantulogic.core.watermetrereader.R;
-
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
 
 /**
  * A simple {@link Fragment} subclass.

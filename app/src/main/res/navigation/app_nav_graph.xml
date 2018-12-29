@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/dest_login_fragment"
-        android:name="com.bantulogic.core.watermetrereader.UI.Fragments.LoginFragment"
+        android:name="com.bantulogic.core.watermetrereader.UIController.Fragments.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login">
 
@@ -19,7 +19,7 @@
         app:startDestination="@id/dest_home_fragment">
         <fragment
             android:id="@+id/dest_home_fragment"
-            android:name="com.bantulogic.core.watermetrereader.UI.Fragments.HomeFragment"
+            android:name="com.bantulogic.core.watermetrereader.UIController.Fragments.HomeFragment"
             android:label="fragment_home"
             tools:layout="@layout/fragment_home">
             <action
@@ -34,7 +34,7 @@
         </fragment>
         <fragment
             android:id="@+id/dest_logout_fragment"
-            android:name="com.bantulogic.core.watermetrereader.UI.Fragments.LogoutFragment"
+            android:name="com.bantulogic.core.watermetrereader.UIController.Fragments.LogoutFragment"
             android:label="fragment_logout"
             tools:layout="@layout/fragment_logout" >
             <action
@@ -46,12 +46,12 @@
         </fragment>
         <fragment
             android:id="@+id/dest_reading_detail_fragment"
-            android:name="com.bantulogic.core.watermetrereader.UI.Fragments.ReadingDetailFragment"
+            android:name="com.bantulogic.core.watermetrereader.UIController.Fragments.ReadingDetailFragment"
             android:label="fragment_reading_detail"
             tools:layout="@layout/fragment_reading_detail" />
         <fragment
             android:id="@+id/dest_dashboard_fragment"
-            android:name="com.bantulogic.core.watermetrereader.UI.Fragments.DashboardFragment"
+            android:name="com.bantulogic.core.watermetrereader.UIController.Fragments.DashboardFragment"
             android:label="fragment_dashboard"
             tools:layout="@layout/fragment_dashboard" />
     </navigation>

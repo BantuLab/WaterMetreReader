@@ -1,14 +1,13 @@
-package com.bantulogic.core.watermetrereader.Data.DataStore.Database;
-
+package com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.bantulogic.core.watermetrereader.Data.DataStore.DAO.MetreAccountDAO;
-import com.bantulogic.core.watermetrereader.Data.DataStore.DAO.MetreReadingDAO;
-import com.bantulogic.core.watermetrereader.Data.DataStore.DAO.UserDAO;
-import com.bantulogic.core.watermetrereader.Data.DataStore.Entities.MetreAccount;
-import com.bantulogic.core.watermetrereader.Data.DataStore.Entities.MetreReading;
-import com.bantulogic.core.watermetrereader.Data.DataStore.Entities.User;
+import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.DAO.MetreAccountDAO;
+import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.DAO.MetreReadingDAO;
+import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.DAO.UserDAO;
+import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities.MetreAccount;
+import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities.MetreReading;
+import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities.User;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -48,6 +47,15 @@ public abstract class AppDatabase extends RoomDatabase {
                     super.onOpen(db);
                     new populateDbAsync(INSTANCE).execute();
                 }
+
+                @Override
+                public void onCreate(@NonNull SupportSQLiteDatabase db) {
+                    super.onCreate(db);
+                    //Setup the DB with some test data
+                    //When the App is in production we will initialize this with the data from the
+                    //Backend via REST API
+                    new initializeDbAsync(INSTANCE).execute();
+                }
             };
 
     private static class populateDbAsync extends AsyncTask<Void, Void, Void> {
@@ -63,7 +71,26 @@ public abstract class AppDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
+            //Do the inserts from the REST API or from mocks
             return null;
+        }
+    }
+
+    private static class initializeDbAsync extends AsyncTask<Void, Void, Void> {
+        private final UserDAO mUserDAO;
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            //Do the inserts from the REST API or from mocks
+            return null;
+        }
+
+        private final MetreReadingDAO mMetreReadingDAO;
+        private final MetreAccountDAO mMetreAccountDAO;
+        private initializeDbAsync(AppDatabase dbInstance){
+            mUserDAO = dbInstance.userDAO();
+            mMetreReadingDAO = dbInstance.metreReadingDAO();
+            mMetreAccountDAO = dbInstance.metreAccountDAO();
         }
     }
 

@@ -1,4 +1,4 @@
-package com.bantulogic.core.watermetrereader.UI.Activities;
+package com.bantulogic.core.watermetrereader.UIController.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

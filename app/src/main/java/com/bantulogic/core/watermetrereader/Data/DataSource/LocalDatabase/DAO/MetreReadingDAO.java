@@ -1,6 +1,6 @@
-package com.bantulogic.core.watermetrereader.Data.DataStore.DAO;
+package com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.DAO;
 
-import com.bantulogic.core.watermetrereader.Data.DataStore.Entities.MetreReading;
+import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities.MetreReading;
 
 import java.util.List;
 

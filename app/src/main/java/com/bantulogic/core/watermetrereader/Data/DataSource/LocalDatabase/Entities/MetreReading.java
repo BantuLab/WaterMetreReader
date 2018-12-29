@@ -1,14 +1,8 @@
-package com.bantulogic.core.watermetrereader.Data.DataStore.Entities;
-
-import android.location.Address;
-
+package com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities;
 import com.bantulogic.core.watermetrereader.Utilities.Converters;
-
 import java.util.Date;
-
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
-import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;

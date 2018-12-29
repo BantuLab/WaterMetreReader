@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         
-        <activity android:name=".UI.Activities.AppActivity" android:screenOrientation="portrait" android:configChanges="keyboardHidden">
+        <activity android:name=".UIController.Activities.AppActivity" android:screenOrientation="portrait" android:configChanges="keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />

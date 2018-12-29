@@ -1,4 +1,4 @@
-package com.bantulogic.core.watermetrereader.UI.Fragments;
+package com.bantulogic.core.watermetrereader.UIController.Fragments;
 
 
 import android.os.Bundle;
