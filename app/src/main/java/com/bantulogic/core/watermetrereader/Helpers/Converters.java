@@ -1,4 +1,4 @@
-package com.bantulogic.core.watermetrereader.Utilities;
+package com.bantulogic.core.watermetrereader.Helpers;
 
 import java.util.Date;
 

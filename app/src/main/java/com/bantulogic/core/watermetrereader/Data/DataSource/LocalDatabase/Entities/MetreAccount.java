@@ -1,5 +1,5 @@
 package com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities;
-import com.bantulogic.core.watermetrereader.Utilities.Converters;
+import com.bantulogic.core.watermetrereader.Helpers.Converters;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

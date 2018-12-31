@@ -1,4 +1,4 @@
-package com.bantulogic.core.watermetrereader.Utilities;
+package com.bantulogic.core.watermetrereader.Helpers;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
