@@ -19,13 +19,13 @@ public interface MetreAccountDAO {
     @Query(("SELECT * FROM MetreAccount WHERE metre_id IN (:metre_ids)"))
     LiveData<List<MetreAccount>> getAllMetreAccountsById(String[] metre_ids);
 
-    @Query(("SELECT * FROM MetreAccount WHERE customer_id = (:customer_id)"))
+    @Query(("SELECT * FROM MetreAccount WHERE customer_id = :customer_id"))
     LiveData<List<MetreAccount>> getAllMetreAccountsByCustomer(long customer_id);
 
-    @Query(("SELECT * FROM MetreAccount WHERE assigned_user_id = (:assigned_user_id)"))
+    @Query(("SELECT * FROM MetreAccount WHERE assigned_user_id = :assigned_user_id"))
     LiveData<List<MetreAccount>> getAllMetreAccountsByUser(String assigned_user_id);
 
-    @Query(("SELECT * FROM MetreAccount WHERE metre_id = (:metre_id) LIMIT 1"))
+    @Query(("SELECT * FROM MetreAccount WHERE metre_id = :metre_id LIMIT 1"))
     LiveData<MetreAccount> getMetreAccountById(String metre_id);
 
     @Insert

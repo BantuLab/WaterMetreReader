@@ -47,7 +47,7 @@ public class User {
         this.mUserType = userType;
         this.mUserRole = userRole;
     }
-
+//region GETTERS AND SETTERS
     public String getUserId() {
         return mUserId;
     }
@@ -111,4 +111,5 @@ public class User {
     public void setUserRole(String userRole) {
         mUserRole = userRole;
     }
+//endregion
 }
