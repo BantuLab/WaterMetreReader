@@ -2,6 +2,8 @@ package com.bantulogic.core.watermetrereader.Data.DataSource.NetworkRESTAPI;
 
 import android.text.TextUtils;
 
+import com.bantulogic.core.watermetrereader.Helpers.TokenRenewInterceptor;
+
 import okhttp3.Credentials;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -19,11 +21,11 @@ public class ServiceGenerator {
 
     public static Retrofit sRetrofit = sBuilder.build();
 
-    private static <S> S createService(Class<S> serviceClass) {
+    public static <S> S createService(Class<S> serviceClass) {
         return createService(serviceClass,null,null);
     }
 
-    private static <S> S createService(
+    public static <S> S createService(
             Class<S> serviceClass, String username, String password){
         if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)){
             String authToken = Credentials.basic(username, password);
@@ -34,17 +36,27 @@ public class ServiceGenerator {
         return createService(serviceClass, null);
 
     }
-    private static <S> S createService(
+    public static <S> S createService(
             Class<S> serviceClass, final String authToken
     ){
         if (!TextUtils.isEmpty(authToken)){
             AuthenticationInterceptor interceptor = new AuthenticationInterceptor(authToken);
+            //Add Token Renew Logic
+           // TokenRenewInterceptor tokenRenewInterceptor = new TokenRenewInterceptor();
+            /**
+             * Here, we’ve added another interceptor AuthorizationInterceptor .
+             * That checks for response code 401 and 403 which conventionally denotes an
+             * authentication issue. When this error is encountered we just call invalidate()
+             * to delete token and user’s data. An event is passed to it’s
+             * listener (i.e: view/service) to take the necessary actions (i.e: Switch to Login Activity).
+             */
 
             if (!sOkHttpClient.interceptors().contains(interceptor)){
                 sOkHttpClient.addInterceptor(interceptor);
                 sBuilder.client(sOkHttpClient.build());
                 sRetrofit = sBuilder.build();
             }
+
         }
         return sRetrofit.create(serviceClass);
     }

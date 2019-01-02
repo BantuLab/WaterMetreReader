@@ -4,10 +4,21 @@ import java.util.Date;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-@Entity
+import static androidx.room.ForeignKey.CASCADE;
+
+@Entity(
+        foreignKeys = @ForeignKey(
+                entity = MetreAccount.class,
+                parentColumns = "metre_id",
+                childColumns = "metre_id",
+                onDelete = CASCADE,
+                onUpdate = CASCADE
+        )
+)
 @TypeConverters(Converters.class)
 public class MetreReading {
     @PrimaryKey
@@ -61,7 +72,7 @@ public class MetreReading {
         this.mTimeReadingRecorded = timeReadingRecorded;
 
     }
-
+//region GETTERS AND SETTERS
     public String getReadingId() {
         return mReadingId;
     }
@@ -149,4 +160,5 @@ public class MetreReading {
     public void setTimeReadingRecorded(Date timeReadingRecorded) {
         mTimeReadingRecorded = timeReadingRecorded;
     }
+    //endregion
 }

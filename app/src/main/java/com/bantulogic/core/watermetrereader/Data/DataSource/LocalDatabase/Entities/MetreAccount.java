@@ -3,10 +3,33 @@ import com.bantulogic.core.watermetrereader.Helpers.Converters;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-@Entity
+import static androidx.room.ForeignKey.CASCADE;
+import static androidx.room.ForeignKey.SET_NULL;
+
+@Entity(
+        foreignKeys =
+                {
+                        @ForeignKey(
+                                entity = Customer.class,
+                                parentColumns = "id",
+                                childColumns = "customer_id",
+                                onDelete = CASCADE,
+                                onUpdate = CASCADE
+                        ),
+                        @ForeignKey(
+                                entity = User.class,
+                                parentColumns = "user_id",
+                                childColumns = "assigned_user_id",
+                                onDelete = SET_NULL,
+                                onUpdate = CASCADE
+                        )
+                }
+
+)
 @TypeConverters(Converters.class)
 public class MetreAccount {
     @PrimaryKey
@@ -55,7 +78,7 @@ public class MetreAccount {
         this.mGpsLongitude = gpsLongitude;
         this.mAssignedUserId = assignedUserId;
     }
-
+//region GETTERS AND SETTERS
     public long getMetreId() {
         return mMetreId;
     }
@@ -135,4 +158,5 @@ public class MetreAccount {
     public void setAssignedUserId(String assignedUserId) {
         mAssignedUserId = assignedUserId;
     }
+//endregion
 }
