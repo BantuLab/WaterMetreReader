@@ -2,9 +2,11 @@ package com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.DAO.CustomerDAO;
 import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.DAO.MetreAccountDAO;
 import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.DAO.MetreReadingDAO;
 import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.DAO.UserDAO;
+import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities.Customer;
 import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities.MetreAccount;
 import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities.MetreReading;
 import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities.User;
@@ -18,13 +20,14 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
-@Database(entities = {User.class, MetreAccount.class, MetreReading.class}, version = 1)
+@Database(entities = {User.class, MetreAccount.class, MetreReading.class, Customer.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase INSTANCE;
 
     public abstract UserDAO userDAO();
     public abstract MetreAccountDAO metreAccountDAO();
     public abstract MetreReadingDAO metreReadingDAO();
+    public abstract CustomerDAO customerDAO();
 
     public static AppDatabase getDatabse(final Context context){
         if (INSTANCE == null){
@@ -52,7 +55,7 @@ public abstract class AppDatabase extends RoomDatabase {
                 public void onCreate(@NonNull SupportSQLiteDatabase db) {
                     super.onCreate(db);
                     //Setup the DB with some test data
-                    //When the App is in production we will initialize this with the data from the
+                    //When the MetreReaderApp is in production we will initialize this with the data from the
                     //Backend via REST API
                     new initializeDbAsync(INSTANCE).execute();
                 }
@@ -62,11 +65,13 @@ public abstract class AppDatabase extends RoomDatabase {
         private final UserDAO mUserDAO;
         private final MetreReadingDAO mMetreReadingDAO;
         private final MetreAccountDAO mMetreAccountDAO;
+        private final CustomerDAO mCustomerDAO;
 
         public populateDbAsync(AppDatabase dbInstance) {
             mUserDAO = dbInstance.userDAO();
             mMetreReadingDAO = dbInstance.metreReadingDAO();
             mMetreAccountDAO = dbInstance.metreAccountDAO();
+            mCustomerDAO = dbInstance.customerDAO();
         }
 
         @Override
@@ -78,6 +83,9 @@ public abstract class AppDatabase extends RoomDatabase {
 
     private static class initializeDbAsync extends AsyncTask<Void, Void, Void> {
         private final UserDAO mUserDAO;
+        private final MetreReadingDAO mMetreReadingDAO;
+        private final MetreAccountDAO mMetreAccountDAO;
+        private final CustomerDAO mCustomerDAO;
 
         @Override
         protected Void doInBackground(Void... voids) {
@@ -85,12 +93,13 @@ public abstract class AppDatabase extends RoomDatabase {
             return null;
         }
 
-        private final MetreReadingDAO mMetreReadingDAO;
-        private final MetreAccountDAO mMetreAccountDAO;
+
         private initializeDbAsync(AppDatabase dbInstance){
+            mCustomerDAO = dbInstance.customerDAO();
             mUserDAO = dbInstance.userDAO();
             mMetreReadingDAO = dbInstance.metreReadingDAO();
             mMetreAccountDAO = dbInstance.metreAccountDAO();
+
         }
     }
 

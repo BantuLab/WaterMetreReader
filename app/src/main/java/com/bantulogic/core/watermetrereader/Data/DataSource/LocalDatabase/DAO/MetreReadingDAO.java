@@ -29,5 +29,8 @@ public interface MetreReadingDAO {
     void insertMany(MetreReading... metreReadings);
 
     @Delete
-    void deleteMetreAccount(MetreReading metreReading);
+    void deleteMetreReading(MetreReading metreReading);
+
+    @Query("DELETE FROM MetreReading")
+    void deleteAllMetreReadings();
 }

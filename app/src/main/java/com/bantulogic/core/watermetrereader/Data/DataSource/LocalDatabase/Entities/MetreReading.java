@@ -5,12 +5,17 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 import static androidx.room.ForeignKey.CASCADE;
 
 @Entity(
+        indices = @Index(
+                value = "metre_id",
+                unique = true
+        ),
         foreignKeys = @ForeignKey(
                 entity = MetreAccount.class,
                 parentColumns = "metre_id",

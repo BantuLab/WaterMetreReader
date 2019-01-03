@@ -11,11 +11,11 @@ import retrofit2.http.Query;
 
 public interface MetreAccountWebAPI {
 
-    @GET("/api/metreaccounts")
+    @GET("api/metre_accounts")
     Call<List<MetreAccount>> getMetreAccountsByUser(
             @Query("assigned_user_id") String assignedUserId
     );
-    @GET("/api/metreaccounts/{metre_id}")
+    @GET("/api/metre_accounts/{metre_id}")
     Call<MetreAccount> getMetreAccount(
             @Path("metre_id") long  metreId
     );

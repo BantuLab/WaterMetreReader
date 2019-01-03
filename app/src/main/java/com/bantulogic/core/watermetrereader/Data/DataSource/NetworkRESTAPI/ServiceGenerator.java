@@ -10,7 +10,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceGenerator {
-    public static final String API_BASE_URL = "https://reqres.in";
+    public static final String API_BASE_URL = "https://f205ba47-781e-46f9-9773-b5e62f905431.mock.pstmn.io/water/";
 
     private static OkHttpClient.Builder sOkHttpClient = new OkHttpClient.Builder();
 

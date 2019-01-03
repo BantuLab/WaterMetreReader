@@ -1,9 +1,13 @@
 package com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities;
 import com.bantulogic.core.watermetrereader.Helpers.Converters;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
@@ -11,6 +15,17 @@ import static androidx.room.ForeignKey.CASCADE;
 import static androidx.room.ForeignKey.SET_NULL;
 
 @Entity(
+        indices =
+                {
+                        @Index(
+                                value = "customer_id",
+                                unique = true
+                        ),
+                        @Index(
+                                value = "assigned_user_id",
+                                unique = true
+                        )
+                },
         foreignKeys =
                 {
                         @ForeignKey(
@@ -29,29 +44,50 @@ import static androidx.room.ForeignKey.SET_NULL;
                         )
                 }
 
+
 )
 @TypeConverters(Converters.class)
 public class MetreAccount {
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "metre_id")
+    @SerializedName("metreId")
+    @Expose
     private long mMetreId;
     @ColumnInfo(name = "customer_id")
+    @SerializedName("customerId")
+    @Expose
     private String mCustomerId;
+    @SerializedName("metreStreetAddress")
+    @Expose
     @ColumnInfo(name = "street_address")
     private String mMetreStreetAddress;
+    @SerializedName("city")
+    @Expose
     @ColumnInfo(name = "city")
     private String mCity;
+    @SerializedName("province")
+    @Expose
     @ColumnInfo(name = "province")
     private String mProvince;
+    @SerializedName("country")
+    @Expose
     @ColumnInfo(name = "country")
     private String mCountry;
+    @SerializedName("gpsCoordinates")
+    @Expose
     @ColumnInfo(name = "gps_coordinates")
     private String mGpsCoordinates;
+    @SerializedName("gpsLatitude")
+    @Expose
     @ColumnInfo(name = "gps_latitude")
     private double mGpsLatitude;
+    @SerializedName("gpsLongitude")
+    @Expose
     @ColumnInfo(name = "gps_longitude")
     private double mGpsLongitude;
+    @SerializedName("assignedUserId")
+    @Expose
     @ColumnInfo(name = "assigned_user_id")
     private String mAssignedUserId;
 

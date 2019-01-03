@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "c0721ed1481dc54cac44f26a92f56baf",
+    "identityHash": "8f156ff8b05de2169761cb1e0e158785",
     "entities": [
       {
         "tableName": "User",
@@ -68,7 +68,7 @@
       },
       {
         "tableName": "MetreAccount",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`metre_id` INTEGER NOT NULL, `customer_id` TEXT, `street_address` TEXT, `city` TEXT, `province` TEXT, `country` TEXT, `gps_coordinates` TEXT, `gps_latitude` REAL NOT NULL, `gps_longitude` REAL NOT NULL, `assigned_user_id` TEXT, PRIMARY KEY(`metre_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`metre_id` INTEGER NOT NULL, `customer_id` TEXT, `street_address` TEXT, `city` TEXT, `province` TEXT, `country` TEXT, `gps_coordinates` TEXT, `gps_latitude` REAL NOT NULL, `gps_longitude` REAL NOT NULL, `assigned_user_id` TEXT, PRIMARY KEY(`metre_id`), FOREIGN KEY(`customer_id`) REFERENCES `Customer`(`id`) ON UPDATE CASCADE ON DELETE CASCADE , FOREIGN KEY(`assigned_user_id`) REFERENCES `User`(`user_id`) ON UPDATE CASCADE ON DELETE SET NULL )",
         "fields": [
           {
             "fieldPath": "mMetreId",
@@ -137,12 +137,52 @@
           ],
           "autoGenerate": false
         },
-        "indices": [],
-        "foreignKeys": []
+        "indices": [
+          {
+            "name": "index_MetreAccount_customer_id",
+            "unique": true,
+            "columnNames": [
+              "customer_id"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_MetreAccount_customer_id` ON `${TABLE_NAME}` (`customer_id`)"
+          },
+          {
+            "name": "index_MetreAccount_assigned_user_id",
+            "unique": true,
+            "columnNames": [
+              "assigned_user_id"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_MetreAccount_assigned_user_id` ON `${TABLE_NAME}` (`assigned_user_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Customer",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "customer_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "User",
+            "onDelete": "SET NULL",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "assigned_user_id"
+            ],
+            "referencedColumns": [
+              "user_id"
+            ]
+          }
+        ]
       },
       {
         "tableName": "MetreReading",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`reading_id` TEXT NOT NULL, `metre_id` INTEGER NOT NULL, `date_of_reading` INTEGER, `start_reading` INTEGER NOT NULL, `end_reading` INTEGER NOT NULL, `consumption` INTEGER NOT NULL, `reading_gps_coordinates` TEXT, `reading_gps_latitude` REAL NOT NULL, `reading_gps_longitude` REAL NOT NULL, `reading_recorded_by` TEXT, `time_reading_recorded` INTEGER, PRIMARY KEY(`reading_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`reading_id` TEXT NOT NULL, `metre_id` INTEGER NOT NULL, `date_of_reading` INTEGER, `start_reading` INTEGER NOT NULL, `end_reading` INTEGER NOT NULL, `consumption` INTEGER NOT NULL, `reading_gps_coordinates` TEXT, `reading_gps_latitude` REAL NOT NULL, `reading_gps_longitude` REAL NOT NULL, `reading_recorded_by` TEXT, `time_reading_recorded` INTEGER, PRIMARY KEY(`reading_id`), FOREIGN KEY(`metre_id`) REFERENCES `MetreAccount`(`metre_id`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "mReadingId",
@@ -217,6 +257,83 @@
           ],
           "autoGenerate": false
         },
+        "indices": [
+          {
+            "name": "index_MetreReading_metre_id",
+            "unique": true,
+            "columnNames": [
+              "metre_id"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_MetreReading_metre_id` ON `${TABLE_NAME}` (`metre_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "MetreAccount",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "metre_id"
+            ],
+            "referencedColumns": [
+              "metre_id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Customer",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT, `t_pin` TEXT, `street_address` TEXT, `city` TEXT, `province` TEXT, `country` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "mCustomerId",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mName",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mTaxPin",
+            "columnName": "t_pin",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mMetreStreetAddress",
+            "columnName": "street_address",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mCity",
+            "columnName": "city",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mProvince",
+            "columnName": "province",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mCountry",
+            "columnName": "country",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
         "indices": [],
         "foreignKeys": []
       }
@@ -224,7 +341,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"c0721ed1481dc54cac44f26a92f56baf\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"8f156ff8b05de2169761cb1e0e158785\")"
     ]
   }
 }

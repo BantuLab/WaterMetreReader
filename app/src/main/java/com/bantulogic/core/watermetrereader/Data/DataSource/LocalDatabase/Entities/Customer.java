@@ -18,7 +18,7 @@ public class Customer {
     @ColumnInfo(name = "name")
     private String mName;
     @ColumnInfo(name = "t_pin")
-    private String mTpin;
+    private String mTaxPin;
     @ColumnInfo(name = "street_address")
     private String mMetreStreetAddress;
     @ColumnInfo(name = "city")
@@ -31,7 +31,7 @@ public class Customer {
     public Customer(
             String customerId,
             String name,
-            String tPin,
+            String taxPin,
             String metreStreetAddress,
             String city,
             String province,
@@ -39,7 +39,7 @@ public class Customer {
     ){
         this.mCustomerId =customerId;
         this.mName = name;
-        this.mTpin = tPin;
+        this.mTaxPin = taxPin;
         this.mMetreStreetAddress =metreStreetAddress;
         this.mCity = city;
         this.mProvince = province;
@@ -62,12 +62,12 @@ public class Customer {
         mName = name;
     }
 
-    public String getTpin() {
-        return mTpin;
+    public String getTaxPin() {
+        return mTaxPin;
     }
 
-    public void setTpin(String tpin) {
-        mTpin = tpin;
+    public void setTaxPin(String tpin) {
+        mTaxPin = tpin;
     }
 
     public String getMetreStreetAddress() {

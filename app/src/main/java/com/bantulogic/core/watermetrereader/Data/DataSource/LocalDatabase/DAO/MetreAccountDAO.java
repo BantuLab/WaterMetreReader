@@ -34,4 +34,7 @@ public interface MetreAccountDAO {
     @Delete
     void deleteMetreAccount(MetreAccount metreAccount);
 
+    @Query("DELETE FROM MetreAccount")
+    void deleteAllMetreAccounts();
+
 }

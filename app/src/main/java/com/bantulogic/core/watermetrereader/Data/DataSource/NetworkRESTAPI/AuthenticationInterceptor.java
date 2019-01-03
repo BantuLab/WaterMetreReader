@@ -34,7 +34,7 @@ public class AuthenticationInterceptor implements Interceptor {
      * -Apps might need to get the updated token in some way so that access won’t be revoked.
      * -If expired, app need to take necessary actions. There are several use cases as following:
      * -A. Use case 1: Some API returns the updated token in response header for once.
-     *         // -B. Use case 2: App should be instantly logged out when token get expired and prompt
+     *         // -B. Use case 2: MetreReaderApp should be instantly logged out when token get expired and prompt
      *         // -user to login again (For example: when user change facebook password using website and
      *         // -want to continue using the mobile app
      *         // -C. Use case 3: When token get expired, it might be required to automatically login in

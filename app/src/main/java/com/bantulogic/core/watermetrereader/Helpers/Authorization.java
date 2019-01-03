@@ -32,7 +32,7 @@ public class Authorization {
         this.userId = userId;
     }
 
-    public String getId() {
+    public String getUserId() {
         return userId;
     }
 

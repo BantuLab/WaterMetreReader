@@ -40,9 +40,10 @@ public class UserRepository {
         AppDatabase db  = AppDatabase.getDatabse(application);
 
         mUserDAO = db.userDAO();
+        mAllUsers = mUserDAO.getAllUsers();
+
         mUserWebAPI = ServiceGenerator.createService(UserWebAPI.class,"peter@klaven","cityslicka");
 
-        mAllUsers = mUserDAO.getAllUsers();
     }
 
 /*  Wrapper methods for the ViewModels:
@@ -135,6 +136,7 @@ public class UserRepository {
     public void deleteAllUsers(){
         new DeleteAllUsersAsyncTask(mUserDAO).execute();
     }
+    //endregion
 //region USER API ASYNC TASKS
     private static class InsertUserAsyncTask extends AsyncTask<User, Void, Void>{
         private UserDAO userDAO;
