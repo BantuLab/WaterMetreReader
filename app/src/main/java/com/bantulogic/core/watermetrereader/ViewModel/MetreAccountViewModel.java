@@ -35,7 +35,7 @@ public class MetreAccountViewModel extends AndroidViewModel {
 
     public LiveData<List<MetreAccount>> getMetreAccounts(){
         if(metreAccounts == null){
-            metreAccounts = new MutableLiveData<List<MetreAccount>>();
+            metreAccounts = new MutableLiveData<>();
             loadMetreAccounts();
         }
         return metreAccounts;
