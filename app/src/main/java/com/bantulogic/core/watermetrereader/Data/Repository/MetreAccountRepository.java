@@ -7,11 +7,10 @@ import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.AppDat
 import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.DAO.MetreAccountDAO;
 import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities.MetreAccount;
 import com.bantulogic.core.watermetrereader.Data.DataSource.NetworkRESTAPI.MetreAccountWebAPI;
-import com.bantulogic.core.watermetrereader.Data.DataSource.NetworkRESTAPI.ServiceGenerator;
+import com.bantulogic.core.watermetrereader.Data.DataSource.NetworkRESTAPI.Helpers.ServiceGenerator;
 import com.bantulogic.core.watermetrereader.Helpers.Authorization;
 import com.bantulogic.core.watermetrereader.Helpers.MetreReaderApp;
 
-import java.io.IOException;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;

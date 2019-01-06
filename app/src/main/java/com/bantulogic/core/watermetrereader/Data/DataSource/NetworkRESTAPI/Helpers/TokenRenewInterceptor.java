@@ -1,4 +1,6 @@
-package com.bantulogic.core.watermetrereader.Helpers;
+package com.bantulogic.core.watermetrereader.Data.DataSource.NetworkRESTAPI.Helpers;
+
+import com.bantulogic.core.watermetrereader.Helpers.Session;
 
 import java.io.IOException;
 
@@ -6,7 +8,7 @@ import okhttp3.Interceptor;
 import okhttp3.Response;
 
 public class TokenRenewInterceptor implements Interceptor {
-    private  Session mSession;
+    private Session mSession;
 
     public TokenRenewInterceptor(Session session){
         this.mSession = session;

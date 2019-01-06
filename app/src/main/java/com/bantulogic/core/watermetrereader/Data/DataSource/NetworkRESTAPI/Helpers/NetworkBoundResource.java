@@ -1,12 +1,15 @@
-package com.bantulogic.core.watermetrereader.Helpers;
+package com.bantulogic.core.watermetrereader.Data.DataSource.NetworkRESTAPI.Helpers;
 
-import com.bantulogic.core.watermetrereader.Data.DataSource.NetworkRESTAPI.ApiResponse;
+import com.bantulogic.core.watermetrereader.Data.DataSource.NetworkRESTAPI.Helpers.ApiResponse;
+import com.bantulogic.core.watermetrereader.Helpers.AppExecutors;
+import com.bantulogic.core.watermetrereader.Helpers.Resource;
 
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 
 /** NOTES
  *
@@ -49,6 +52,56 @@ import androidx.lifecycle.LiveData;
 // ResultType: Type for the Resource data.
 // RequestType: Type for the API response.
 public abstract class NetworkBoundResource<ResultType, RequestType> {
+    private final AppExecutors mAppExecutors;
+
+    private final MediatorLiveData<Resource<ResultType>> result = new MediatorLiveData<>();
+
+    public NetworkBoundResource(AppExecutors appExecutors){
+        this.mAppExecutors = appExecutors;
+        result.setValue(Resource.loading(null));
+        LiveData<ResultType> dbSource = loadFromDb();
+
+        result.addSource(dbSource, data -> {
+            result.removeSource(dbSource);
+            if (shouldFetch(data)){
+                fetchFromNetwork(dbSource);
+            } else {
+                result.addSource(dbSource, newData -> result.setValue(Resource.success(newData)));
+            }
+        });
+    }
+
+    private void fetchFromNetwork(final LiveData<ResultType> dbSource) {
+        LiveData<ApiResponse<RequestType>> apiResponse = createCall();
+        //we re-attach dbsource as a new source, it will dispatch its latest value quickly
+        result.addSource(dbSource, newData -> result.setValue(Resource.loading(newData)));
+        result.addSource(apiResponse, response -> {
+            result.removeSource(apiResponse);
+            result.removeSource(dbSource);
+            //noinspection ConstantConditions
+            if (response.isSuccessful()) {
+                mAppExecutors.getDiskIO().execute(() -> {
+                    saveCallResult(processResponse(response));
+                    mAppExecutors.getMainThread().execute(() ->
+                    //we specially request a new live data,
+                    //otherwise we will get immediately last cached value,
+                    //which may not be updated with latest results received from network
+                    result.addSource(loadFromDb(),
+                            newData -> result.setValue(Resource.success(newData)))
+                    );
+                });
+            } else {
+                onFetchFailed();
+                result.addSource(dbSource,
+                        newData -> result.setValue(Resource.error(response.errorMessage, newData)));
+            }
+        });
+    }
+    @WorkerThread
+    private RequestType processResponse(ApiResponse<RequestType> response) {
+        return response.body;
+    }
+
     // Called to save the result of the API response into the database.
     @WorkerThread
     protected abstract void saveCallResult(@NonNull RequestType item);
@@ -71,7 +124,10 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
     @MainThread
     protected abstract void onFetchFailed();
 
+
     // Returns a LiveData object that represents the resource that's implemented
     // in the base class.
-    public abstract LiveData<Resource<ResultType>> getAsLiveData();
+    public LiveData<Resource<ResultType>> getAsLiveData(){
+        return result;
+    }
 }

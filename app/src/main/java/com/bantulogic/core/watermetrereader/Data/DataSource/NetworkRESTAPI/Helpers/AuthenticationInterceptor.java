@@ -1,4 +1,4 @@
-package com.bantulogic.core.watermetrereader.Data.DataSource.NetworkRESTAPI;
+package com.bantulogic.core.watermetrereader.Data.DataSource.NetworkRESTAPI.Helpers;
 
 import android.util.Log;
 

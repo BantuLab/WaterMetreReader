@@ -1,8 +1,6 @@
-package com.bantulogic.core.watermetrereader.Data.DataSource.NetworkRESTAPI;
+package com.bantulogic.core.watermetrereader.Data.DataSource.NetworkRESTAPI.Helpers;
 
 import android.text.TextUtils;
-
-import com.bantulogic.core.watermetrereader.Helpers.TokenRenewInterceptor;
 
 import okhttp3.Credentials;
 import okhttp3.OkHttpClient;
@@ -18,8 +16,7 @@ public class ServiceGenerator {
             new Retrofit.Builder()
                     .baseUrl(API_BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
-//                    .addCallAdapterFactory(LiveData)
-            ;
+                    .addCallAdapterFactory(new LiveDataCallAdapterFactory());
 
     public static Retrofit sRetrofit = sBuilder.build();
 

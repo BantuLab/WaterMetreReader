@@ -7,7 +7,7 @@ import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.DAO.Cu
 import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities.Customer;
 import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities.User;
 import com.bantulogic.core.watermetrereader.Data.DataSource.NetworkRESTAPI.CustomerWebAPI;
-import com.bantulogic.core.watermetrereader.Data.DataSource.NetworkRESTAPI.ServiceGenerator;
+import com.bantulogic.core.watermetrereader.Data.DataSource.NetworkRESTAPI.Helpers.ServiceGenerator;
 
 import java.util.Date;
 import java.util.List;
