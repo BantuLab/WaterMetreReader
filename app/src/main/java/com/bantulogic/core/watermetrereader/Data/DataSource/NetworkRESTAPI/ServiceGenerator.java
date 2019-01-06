@@ -17,7 +17,9 @@ public class ServiceGenerator {
     private static Retrofit.Builder sBuilder =
             new Retrofit.Builder()
                     .baseUrl(API_BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create());
+                    .addConverterFactory(GsonConverterFactory.create())
+//                    .addCallAdapterFactory(LiveData)
+            ;
 
     public static Retrofit sRetrofit = sBuilder.build();
 

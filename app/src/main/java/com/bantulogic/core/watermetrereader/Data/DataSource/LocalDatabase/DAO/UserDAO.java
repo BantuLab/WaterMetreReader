@@ -11,6 +11,8 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import static androidx.room.OnConflictStrategy.REPLACE;
+
 @Dao
 public interface UserDAO {
 
@@ -18,12 +20,15 @@ public interface UserDAO {
     LiveData<List<User>> getAllUsers();
 
     @Query("SELECT * FROM User WHERE user_id = :user_id  LIMIT 1")
-    LiveData<User> getUserById(String user_id);
+    LiveData<User> getUser(String user_id);
 
-    @Insert
+    @Query("SELECT COUNT(*) FROM User WHERE user_id = :user_id AND (last_update - :timeout) >= 120000")
+    int hasUser(String user_id, Long timeout); //Check last updated 2 mins ago
+
+    @Insert(onConflict = REPLACE)
     void insertManyUsers(User... users);
 
-    @Insert
+    @Insert(onConflict = REPLACE)
     void insertUser(User user);
 
     @Delete

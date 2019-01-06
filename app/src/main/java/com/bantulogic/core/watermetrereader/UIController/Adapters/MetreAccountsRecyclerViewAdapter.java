@@ -14,12 +14,12 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MetreAccountRecyclerAdapter extends RecyclerView.Adapter<MetreAccountRecyclerAdapter.ViewHolder> {
+public class MetreAccountsRecyclerViewAdapter extends RecyclerView.Adapter<MetreAccountsRecyclerViewAdapter.ViewHolder> {
     private final Context mContext;
     private LayoutInflater mLayoutInflater;
     private List<MetreAccount> mMetreAccounts;
 
-    public MetreAccountRecyclerAdapter(Context context) {
+    public MetreAccountsRecyclerViewAdapter(Context context) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(mContext);
     }

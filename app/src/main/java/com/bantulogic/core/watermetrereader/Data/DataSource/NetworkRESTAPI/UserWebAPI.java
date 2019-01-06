@@ -10,7 +10,7 @@ import retrofit2.http.Path;
 
 public interface UserWebAPI {
     @GET("/api/users/{user_id}")
-    Call<User> getUser(@Path("user_id") int user_id);
+    Call<User> getUser(@Path("user_id") String user_id);
 
     @POST("/api/login")
     Call<ResponseBody> getAuthToken();

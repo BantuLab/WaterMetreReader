@@ -19,7 +19,7 @@
         app:startDestination="@id/dest_home_fragment">
         <fragment
             android:id="@+id/dest_home_fragment"
-            android:name="com.bantulogic.core.watermetrereader.UIController.Fragments.HomeFragment"
+            android:name="com.bantulogic.core.watermetrereader.UIController.Fragments.MetreAccountsFragment"
             android:label="fragment_home"
             tools:layout="@layout/fragment_home">
             <action

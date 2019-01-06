@@ -28,6 +28,8 @@ public class User {
     private String mUserType;
     @ColumnInfo(name="user_role")
     private String mUserRole;
+    @ColumnInfo(name = "last_update")
+    private Date mLastUpdate;
 
     public User(@NonNull String userId,
                         String username,
@@ -36,7 +38,8 @@ public class User {
                         String sex,
                         Date dateOfBirth,
                         String userType,
-                        String userRole
+                        String userRole,
+                        Date lastUpdate
     ){
         this.mUserId = userId;
         this.mUsername = username;
@@ -46,6 +49,7 @@ public class User {
         this.mDateOfBirth = dateOfBirth;
         this.mUserType = userType;
         this.mUserRole = userRole;
+        this.mLastUpdate = lastUpdate;
     }
 //region GETTERS AND SETTERS
     public String getUserId() {
@@ -111,5 +115,13 @@ public class User {
     public void setUserRole(String userRole) {
         mUserRole = userRole;
     }
-//endregion
+
+    public void setLastUpdate(Date lastUpdate) {
+        mLastUpdate = lastUpdate;
+    }
+    public Date getLastUpdate(){
+        return mLastUpdate;
+    }
+
+    //endregion
 }

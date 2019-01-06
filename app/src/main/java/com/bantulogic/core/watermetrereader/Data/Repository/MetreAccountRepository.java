@@ -17,6 +17,7 @@ import java.util.List;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MetreAccountRepository {
@@ -49,20 +50,27 @@ public class MetreAccountRepository {
     //region METRE ACCOUNT API IMPLEMENTATION
     public MutableLiveData<List<MetreAccount>> getMetreAccountsFromWebAPI(){
         //Remember to get clever here and refactor this method
-        try {
-            Response<List<MetreAccount>> response = mGetMetreAccountsByUser.execute();
+        mGetMetreAccountsByUser.enqueue(new Callback<List<MetreAccount>>() {
+            @Override
+            public void onResponse(Call<List<MetreAccount>> call, Response<List<MetreAccount>> response) {
+                if (response.isSuccessful()){
+                    //Mutate the list of Metre Accounts
+                    mMetreAccountsFromWebAPI.postValue(response.body());
+                    Log.d("Chaiwa","Call to /api/metre_accounts?assigned_user_id=\"Some User Id\" returned some data: " +  response.body());
+                }
+                else {
+                    Log.d("Chaiwa","Call to /api/metre_accounts?assigned_user_id=\"Some User Id\" failed with error: " + response.errorBody());
+                    mMetreAccountsFromWebAPI.postValue(null);
+                }
+            }
 
-            if (response.isSuccessful()){
-                mMetreAccountsFromWebAPI.postValue(response.body());
-                Log.d("Chaiwa","Call to /api/metre_accounts?assigned_user_id=\"Some User Id\" returned some data: " +  response.body());
+            @Override
+            public void onFailure(Call<List<MetreAccount>> call, Throwable t) {
+                t.printStackTrace();
+
             }
-            else {
-                Log.d("Chaiwa","Call to /api/metre_accounts?assigned_user_id=\"Some User Id\" failed with error: " + response.errorBody());
-                mMetreAccountsFromWebAPI = null;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        });
+
         return mMetreAccountsFromWebAPI;
     }
     //endregion

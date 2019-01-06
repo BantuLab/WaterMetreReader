@@ -3,7 +3,6 @@ package com.bantulogic.core.watermetrereader.Data.Repository;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.DAO.UserDAO;
 import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.AppDatabase;
@@ -12,8 +11,13 @@ import com.bantulogic.core.watermetrereader.Data.DataSource.NetworkRESTAPI.Servi
 import com.bantulogic.core.watermetrereader.Data.DataSource.NetworkRESTAPI.UserWebAPI;
 import com.google.gson.Gson;
 
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Executor;
+
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,19 +32,43 @@ import retrofit2.Response;
  * The createService method takes a serviceClass, which is the annotated interface for API requests,
  * as a parameter and creates a usable client from it. On the resulting client you'll be able to
  * execute your network requests.
+ * Repository modules handle data operations. They provide a clean API so that the rest of the app
+ * can retrieve this data easily. They know where to get the data from and what API calls to make
+ * when data is updated. You can consider repositories to be mediators between different data
+ * sources, such as persistent models, web services, and caches.
+ *
+ * our UserRepository implementation saves web service responses into the database.
+ * Changes to the database then trigger callbacks on active LiveData objects.
+ * Using this model, the database serves as the single source of truth, and other parts of the app
+ * access it using our UserRepository.
+ * Regardless of whether you use a disk cache, we recommend that your repository designate a
+ * data source as the single source of truth for the rest of your app.
+ *
+ * We can use one of the following strategies to display a consistent data-updating status in the
+ * UI, regardless of where the request to update the data came from:
+ * -Change getUser() to return an object of type LiveData. This object would include the status of
+ * the network operation.
+ * For an example, see the NetworkBoundResource implementation in the
+ * android-architecture-components GitHub project.
+ * -Provide another public function in the UserRepository class that can return the refresh status
+ * of the User. This option is better if you want to show the network status in your UI only when
+ * the data-fetching process originated from an explicit user action, such as pull-to-refresh.
  */
 public class UserRepository {
+    private static final Long FRESH_TIMEOUT = System.currentTimeMillis();
     private UserDAO mUserDAO;
     private UserWebAPI mUserWebAPI;
+    private Executor mExecutor;
 
     private LiveData<List<User>> mAllUsers;
     private LiveData<User> mUser;
 
-    public UserRepository(Application application){
+    public UserRepository(Application application, Executor executor){
         AppDatabase db  = AppDatabase.getDatabse(application);
 
-        mUserDAO = db.userDAO();
-        mAllUsers = mUserDAO.getAllUsers();
+        this.mUserDAO = db.userDAO();
+        this.mAllUsers = mUserDAO.getAllUsers();
+        this.mExecutor = executor; //pass Executors.newSingleThreadExecutor();
 
         mUserWebAPI = ServiceGenerator.createService(UserWebAPI.class,"peter@klaven","cityslicka");
 
@@ -58,30 +86,63 @@ public class UserRepository {
         return mAllUsers;
     }
 
-    public LiveData<User> getUserById(String userId){
+    public LiveData<User> getUser(String userId){
         //TODO Fix the User Retrieval Workflow
         //Here we can check if logged-in, then we return the logged-in user. At login we check if
         //there is network we try to get the user from the REST API then cache the user to local DB,
         //so if requesting the user and offline then authenticate using local cached user/profile
         //otherwise query the user from the network REST API
 
-        mUser = mUserDAO.getUserById(userId);
+        //Refresh User
+        refreshUser(userId);
+        // Returns a LiveData object directly from the database.
+        mUser = mUserDAO.getUser(userId);
         return mUser;
+    }
+
+    private void refreshUser(String userId) {
+        //Runs in a background thread
+        mExecutor.execute(() -> {
+            //Check if user data was fetched recently(i.e. less than 2 minutes)
+            boolean userExists = mUserDAO.hasUser(userId, FRESH_TIMEOUT) <= 0 ? true : false;
+            if (!userExists){
+                //Refreshes the data
+                try {
+                    Response<User> response = mUserWebAPI.getUser(userId).execute();
+
+                    //handle errors here
+                    if (!response.isSuccessful()){
+
+                    }
+                    else if (response.isSuccessful()){
+                        //Updates the database. The LiveData object automatically
+                        //refreshes, so we don't need to do anything else here.
+                        response.body().setLastUpdate(new Date());
+                        mUserDAO.insertUser(response.body());
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
     public LiveData<User> getCurrentUser() {
         return mUser;
     }
-    public Call<User> getWebUser(int user_id){
+    public LiveData<User> getWebUser(String user_id){
         Call<User> call = mUserWebAPI.getUser(user_id);
+        final MutableLiveData<User> userData = new MutableLiveData<>();
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()){
-                    Log.d("Chaiwa", "Success:" + response.body());
+                    userData.postValue(response.body());
+                    Log.d("Chaiwa", "User REST API Call Success:" + response.body());
                 }
                 else {
-                    Log.d("Chaiwa", "Error" + new Gson().toJson(response.errorBody()));
+                    Log.d("Chaiwa", "User REST API Call Error" + new Gson().toJson(response.errorBody()));
                 }
             }
 
@@ -92,7 +153,7 @@ public class UserRepository {
             }
         });
 
-        return call;
+        return userData;
     }
     public Call<ResponseBody> getApiAuthToken(){
         Call<ResponseBody> call = mUserWebAPI.getAuthToken();
