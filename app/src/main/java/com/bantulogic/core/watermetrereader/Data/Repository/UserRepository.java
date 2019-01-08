@@ -9,6 +9,7 @@ import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.AppDat
 import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities.User;
 import com.bantulogic.core.watermetrereader.Data.DataSource.NetworkRESTAPI.Helpers.ApiResponse;
 import com.bantulogic.core.watermetrereader.Data.DataSource.NetworkRESTAPI.Helpers.NetworkBoundResource;
+import com.bantulogic.core.watermetrereader.Data.DataSource.NetworkRESTAPI.Helpers.RateLimiter;
 import com.bantulogic.core.watermetrereader.Data.DataSource.NetworkRESTAPI.Helpers.ServiceGenerator;
 import com.bantulogic.core.watermetrereader.Data.DataSource.NetworkRESTAPI.UserWebAPI;
 import com.bantulogic.core.watermetrereader.Helpers.AppExecutors;
@@ -70,8 +71,7 @@ public class UserRepository {
     private LiveData<List<User>> mAllUsers;
     private LiveData<User> mUser;
     //Research about implementing RateLimiter for Android Client Apps
-//    RateLimiter<String> mUserRateLimiter = new RateLimiter<>(10, TimeUnit.MINUTES);
-//    boolean shouldFetch = mUserRateLimiter.shouldFetch("KEY");
+    RateLimiter<String> mUserRateLimiter = new RateLimiter<String>(10, TimeUnit.MINUTES);
 
     public UserRepository(Application application, Executor executor){
         AppDatabase db  = AppDatabase.getDatabse(application);
@@ -118,9 +118,10 @@ public class UserRepository {
 
             @Override
             protected boolean shouldFetch(@Nullable User data) {
-//                return rateLimiter.canFetch(userId)
+                return mUserRateLimiter.canFetch(userId);
+//                return true;
+//                return mUserRateLimiter.canFetch(userId)
 //                        && (data == null || !isFresh(data));
-                return true;
             }
 
             @NonNull
@@ -137,6 +138,7 @@ public class UserRepository {
 
             @Override
             protected void onFetchFailed() {
+                mUserRateLimiter.reset(userId);
 
             }
         }.getAsLiveData();

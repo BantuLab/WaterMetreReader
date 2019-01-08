@@ -25,7 +25,7 @@ public class CustomerRepository {
         //Use some global method to get a token and currently logged-in user
         String authToken = "some token";
         //Ideally, this should be a call to the in-memory currently logged-in user
-        User currentUser = new User("1212","weewe","eett","dffd","male",new Date(),"field_agent","dta_collector");
+        User currentUser = new User("1212","weewe","eett","dffd","male",new Date(),"field_agent","dta_collector", new Date());
         //Local Cache
         AppDatabase db = AppDatabase.getDatabse(application);
         this.mCustomerDAO = db.customerDAO();

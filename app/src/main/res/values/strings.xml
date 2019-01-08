@@ -11,7 +11,7 @@
     <string name="_7">7</string>
     <string name="_8">8</string>
     <string name="title_activity_home">HomeActivity</string>
-    <string name="title_home">Home</string>
+    <string name="title_home">Accounts</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="password_reset_hint">Reset password?</string>
@@ -33,4 +33,5 @@
     <string name="title_dashboard_fragment">Dashboard</string>
     <string name="title_raeding_detail">Reading Details</string>
     <string name="view_reading_details">View Reading Details</string>
+    <string name="three_vertical_dots">⋮</string>
 </resources>

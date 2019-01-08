@@ -52,7 +52,33 @@
                                 </LayoutPositions>
                               </value>
                             </entry>
-                            <entry key="dest_home_fragment">
+                            <entry key="dest_logout_fragment">
+                              <value>
+                                <LayoutPositions>
+                                  <option name="myPosition">
+                                    <Point>
+                                      <option name="x" value="603" />
+                                      <option name="y" value="272" />
+                                    </Point>
+                                  </option>
+                                  <option name="myPositions">
+                                    <map>
+                                      <entry key="action_dest_logout_fragment_to_dest_home_fragment">
+                                        <value>
+                                          <LayoutPositions />
+                                        </value>
+                                      </entry>
+                                      <entry key="action_dest_logout_fragment_to_dest_login_fragment">
+                                        <value>
+                                          <LayoutPositions />
+                                        </value>
+                                      </entry>
+                                    </map>
+                                  </option>
+                                </LayoutPositions>
+                              </value>
+                            </entry>
+                            <entry key="dest_metre_accounts_fragment">
                               <value>
                                 <LayoutPositions>
                                   <option name="myPosition">
@@ -74,32 +100,6 @@
                                         </value>
                                       </entry>
                                       <entry key="action_dest_home_fragment_to_dest_reading_detail_fragment">
-                                        <value>
-                                          <LayoutPositions />
-                                        </value>
-                                      </entry>
-                                    </map>
-                                  </option>
-                                </LayoutPositions>
-                              </value>
-                            </entry>
-                            <entry key="dest_logout_fragment">
-                              <value>
-                                <LayoutPositions>
-                                  <option name="myPosition">
-                                    <Point>
-                                      <option name="x" value="603" />
-                                      <option name="y" value="272" />
-                                    </Point>
-                                  </option>
-                                  <option name="myPositions">
-                                    <map>
-                                      <entry key="action_dest_logout_fragment_to_dest_home_fragment">
-                                        <value>
-                                          <LayoutPositions />
-                                        </value>
-                                      </entry>
-                                      <entry key="action_dest_logout_fragment_to_dest_login_fragment">
                                         <value>
                                           <LayoutPositions />
                                         </value>

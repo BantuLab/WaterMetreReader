@@ -16,12 +16,12 @@
             app:destination="@id/nested_home_nav_graph" app:launchSingleTop="true"/>
     </fragment>
     <navigation android:id="@+id/nested_home_nav_graph"
-        app:startDestination="@id/dest_home_fragment">
+        app:startDestination="@id/dest_metre_accounts_fragment">
         <fragment
-            android:id="@+id/dest_home_fragment"
+            android:id="@+id/dest_metre_accounts_fragment"
             android:name="com.bantulogic.core.watermetrereader.UIController.Fragments.MetreAccountsFragment"
-            android:label="fragment_home"
-            tools:layout="@layout/fragment_home">
+            android:label="fragment_metre_accounts"
+            tools:layout="@layout/fragment_metre_accounts">
             <action
                 android:id="@+id/action_dest_home_fragment_to_dest_logout_fragment"
                 app:destination="@id/dest_logout_fragment" />
@@ -39,9 +39,9 @@
             tools:layout="@layout/fragment_logout" >
             <action
                 android:id="@+id/action_dest_logout_fragment_to_dest_home_fragment"
-                app:destination="@id/dest_home_fragment"
+                app:destination="@id/dest_metre_accounts_fragment"
                 app:launchSingleTop="true"
-                app:popUpTo="@id/dest_home_fragment"
+                app:popUpTo="@id/dest_metre_accounts_fragment"
                 app:popUpToInclusive="true" /><action android:id="@+id/action_dest_logout_fragment_to_dest_login_fragment" app:destination="@id/dest_login_fragment" app:popUpTo="@id/dest_logout_fragment" app:popUpToInclusive="true" app:launchSingleTop="true"/>
         </fragment>
         <fragment
