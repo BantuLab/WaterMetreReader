@@ -14,6 +14,4 @@ public interface UserWebAPI {
     @GET("/api/users/{user_id}")
     LiveData<ApiResponse<User>> getUser(@Path("user_id") String user_id);
 
-    @POST("/api/login")
-    Call<ResponseBody> getAuthToken();
 }

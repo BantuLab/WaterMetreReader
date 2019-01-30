@@ -1,6 +1,8 @@
 package com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities;
 
 import com.bantulogic.core.watermetrereader.Helpers.Converters;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -102,4 +104,6 @@ public class Customer {
         mCountry = country;
     }
     //endregion
+
+
 }

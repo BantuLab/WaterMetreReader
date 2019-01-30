@@ -2,6 +2,11 @@ package com.bantulogic.core.watermetrereader.Helpers;
 
 import android.app.Application;
 
+import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities.Authorization;
+import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities.Customer;
+
+import androidx.lifecycle.LiveData;
+
 public class MetreReaderApp extends Application {
     private static MetreReaderApp mApp;
     private Session mSession;
@@ -9,17 +14,19 @@ public class MetreReaderApp extends Application {
     private String mUsername;
     private String mPassword;
 
-    private static Authorization mAuthorization;
+    private static LiveData<Authorization> mAuthorization;
     private  AuthenticationListener mAuthenticationListener;
 
     @Override
     public void onCreate() {
         super.onCreate();
         mApp = this;
-        //Create an instance of authorization object for currently logged-in user
-        mAuthorization = new Authorization();
-        mAuthorization.setUserId("5c2d10f6660c9263da08d04a");
-        mAuthorization.setToken("Basic c3VwZXJAYmFudHVsYWJ0ZWNoLmNvbTpjb2RlMjQ=");
+
+        //setAuthenticationListener(this.mAuthenticationListener);
+    }
+
+    public static void setLoggedInUserAuthorization(LiveData<Authorization> authorization) {
+        mAuthorization = authorization;
     }
 
     public static MetreReaderApp instance(){
@@ -29,7 +36,7 @@ public class MetreReaderApp extends Application {
     /**
      * Return the Auth Object of the current user
      */
-    public static Authorization getLoggedInUserAuthorization(){
+    public static LiveData<Authorization> getLoggedInUserAuthorization(){
         return mAuthorization;
     }
     /*

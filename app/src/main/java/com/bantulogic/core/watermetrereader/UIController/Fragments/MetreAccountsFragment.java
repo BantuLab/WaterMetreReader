@@ -54,8 +54,8 @@ public class MetreAccountsFragment extends Fragment {
 
         //Initialize RecyclerView and Observe Metre Accounts Data From The ViewModel
         initializeMetreAccountsRecyclerView(view);
-        initializeMetreAccountViewModel();
-        observeMetreAccountsData();
+//        initializeMetreAccountViewModel();
+//        observeMetreAccountsData();
     }
 
     private void initializeMetreAccountsRecyclerView(View view) {

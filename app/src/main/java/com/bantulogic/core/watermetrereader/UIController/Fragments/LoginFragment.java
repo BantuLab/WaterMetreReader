@@ -21,6 +21,7 @@ import com.bantulogic.core.watermetrereader.Data.Repository.MetreAccountReposito
 import com.bantulogic.core.watermetrereader.Data.Repository.UserRepository;
 import com.bantulogic.core.watermetrereader.Helpers.MetreReaderApp;
 import com.bantulogic.core.watermetrereader.R;
+import com.bantulogic.core.watermetrereader.ViewModel.AuthorizationViewModel;
 
 import java.util.List;
 
@@ -30,7 +31,7 @@ import java.util.List;
  */
 public class LoginFragment extends Fragment {
     Button mBtnLogin;
-    private List<MetreAccount> mMetreAccountList;
+    private AuthorizationViewModel mAuthorizationViewModel;
 
 
     public LoginFragment() {
@@ -49,6 +50,7 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mBtnLogin = view.findViewById(R.id.btnLogin);
+
         mBtnLogin.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.nested_home_nav_graph, null));
     }
 }

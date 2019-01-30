@@ -12,7 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bantulogic.core.watermetrereader.Helpers.Authorization;
+import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities.Authorization;
+import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities.Customer;
 import com.bantulogic.core.watermetrereader.Helpers.MetreReaderApp;
 import com.bantulogic.core.watermetrereader.R;
 import com.bantulogic.core.watermetrereader.ViewModel.UserProfileViewModel;
@@ -20,7 +21,7 @@ import com.bantulogic.core.watermetrereader.ViewModel.UserProfileViewModel;
 public class UserProfileFragment extends Fragment {
 
     private UserProfileViewModel mUserProfileViewModel;
-    private static final String userId =  MetreReaderApp.getLoggedInUserAuthorization().getUserId();
+    private static final String userId =  MetreReaderApp.getLoggedInUserAuthorization().getValue().getSub().toString();
     //Application Global State Variables
     private Authorization mAuthorization;
 

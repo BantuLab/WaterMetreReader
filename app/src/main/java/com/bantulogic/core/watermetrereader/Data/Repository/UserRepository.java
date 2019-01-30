@@ -80,7 +80,7 @@ public class UserRepository {
         this.mAllUsers = mUserDAO.getAllUsers();
         this.mExecutor = executor; //pass Executors.newSingleThreadExecutor();
 
-        mUserWebAPI = ServiceGenerator.createService(UserWebAPI.class,"peter@klaven","cityslicka");
+        mUserWebAPI = ServiceGenerator.createService(UserWebAPI.class,"some_token");
 
     }
 
@@ -196,27 +196,27 @@ public class UserRepository {
 //
 //        return userData;
 //    }
-    public Call<ResponseBody> getApiAuthToken(){
-        Call<ResponseBody> call = mUserWebAPI.getAuthToken();
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()){
-                    Log.d("Chaiwa", "Success: " + new Gson().toJson(response.body()));
-                }
-                else {
-                    Log.d("Chaiwa", "Error: " + new Gson().toJson(response.errorBody()));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d("Chaiwa", t.toString());
-
-            }
-        });
-        return call;
-    }
+//    public Call<ResponseBody> getApiAuthToken(){
+//        Call<ResponseBody> call = mUserWebAPI.;
+//        call.enqueue(new Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                if (response.isSuccessful()){
+//                    Log.d("Chaiwa", "Success: " + new Gson().toJson(response.body()));
+//                }
+//                else {
+//                    Log.d("Chaiwa", "Error: " + new Gson().toJson(response.errorBody()));
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                Log.d("Chaiwa", t.toString());
+//
+//            }
+//        });
+//        return call;
+//    }
     public void updateUser(User user){
         new UpdateUserAsyncTask(mUserDAO).execute(user);
 

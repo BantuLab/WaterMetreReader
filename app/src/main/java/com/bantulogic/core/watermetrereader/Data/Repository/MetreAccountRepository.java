@@ -5,10 +5,11 @@ import android.util.Log;
 
 import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.AppDatabase;
 import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.DAO.MetreAccountDAO;
+import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities.Authorization;
+import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities.Customer;
 import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities.MetreAccount;
 import com.bantulogic.core.watermetrereader.Data.DataSource.NetworkRESTAPI.MetreAccountWebAPI;
 import com.bantulogic.core.watermetrereader.Data.DataSource.NetworkRESTAPI.Helpers.ServiceGenerator;
-import com.bantulogic.core.watermetrereader.Helpers.Authorization;
 import com.bantulogic.core.watermetrereader.Helpers.MetreReaderApp;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public class MetreAccountRepository {
     private MutableLiveData<List<MetreAccount>> mMetreAccountsFromWebAPI = new MutableLiveData<>();
 
     //Application Global State Variables
-    private Authorization mAuthorization = MetreReaderApp.getLoggedInUserAuthorization();
+    private LiveData<Authorization> mAuthorization = MetreReaderApp.getLoggedInUserAuthorization();
 
     //Constructor
     public MetreAccountRepository(Application application){
@@ -39,11 +40,11 @@ public class MetreAccountRepository {
         AppDatabase db = AppDatabase.getDatabse(application);
 
         mMetreAccountDAO = db.metreAccountDAO();
-        mAllMetreAccounts = mMetreAccountDAO.getAllMetreAccountsByUser(mAuthorization.getUserId());
+        mAllMetreAccounts = mMetreAccountDAO.getAllMetreAccountsByUser(mAuthorization.getValue().getSub());
 
         //Web API Initialization
-        mMetreAccountWebAPI = ServiceGenerator.createService(MetreAccountWebAPI.class, mAuthorization.getToken());
-        mGetMetreAccountsByUser = mMetreAccountWebAPI.getMetreAccountsByUser(mAuthorization.getUserId());
+        mMetreAccountWebAPI = ServiceGenerator.createService(MetreAccountWebAPI.class, mAuthorization.getValue().getToken());
+        mGetMetreAccountsByUser = mMetreAccountWebAPI.getMetreAccountsByUser(mAuthorization.getValue().getSub());
     }
 
     //region METRE ACCOUNT API IMPLEMENTATION

@@ -2,10 +2,12 @@ package com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.DAO.AuthorizationDAO;
 import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.DAO.CustomerDAO;
 import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.DAO.MetreAccountDAO;
 import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.DAO.MetreReadingDAO;
 import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.DAO.UserDAO;
+import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities.Authorization;
 import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities.Customer;
 import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities.MetreAccount;
 import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities.MetreReading;
@@ -20,7 +22,7 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
-@Database(entities = {User.class, MetreAccount.class, MetreReading.class, Customer.class}, version = 1)
+@Database(entities = {User.class, MetreAccount.class, MetreReading.class, Customer.class, Authorization.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase INSTANCE;
 
@@ -28,6 +30,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract MetreAccountDAO metreAccountDAO();
     public abstract MetreReadingDAO metreReadingDAO();
     public abstract CustomerDAO customerDAO();
+    public abstract AuthorizationDAO mAuthorizationDAO();
 
     public static AppDatabase getDatabse(final Context context){
         if (INSTANCE == null){
@@ -66,12 +69,14 @@ public abstract class AppDatabase extends RoomDatabase {
         private final MetreReadingDAO mMetreReadingDAO;
         private final MetreAccountDAO mMetreAccountDAO;
         private final CustomerDAO mCustomerDAO;
+        private final AuthorizationDAO mAuthorizationDAO;
 
         public populateDbAsync(AppDatabase dbInstance) {
             mUserDAO = dbInstance.userDAO();
             mMetreReadingDAO = dbInstance.metreReadingDAO();
             mMetreAccountDAO = dbInstance.metreAccountDAO();
             mCustomerDAO = dbInstance.customerDAO();
+            mAuthorizationDAO = dbInstance.mAuthorizationDAO();
         }
 
         @Override
@@ -86,6 +91,7 @@ public abstract class AppDatabase extends RoomDatabase {
         private final MetreReadingDAO mMetreReadingDAO;
         private final MetreAccountDAO mMetreAccountDAO;
         private final CustomerDAO mCustomerDAO;
+        private final AuthorizationDAO mAuthorizationDAO;
 
         @Override
         protected Void doInBackground(Void... voids) {
@@ -99,6 +105,7 @@ public abstract class AppDatabase extends RoomDatabase {
             mUserDAO = dbInstance.userDAO();
             mMetreReadingDAO = dbInstance.metreReadingDAO();
             mMetreAccountDAO = dbInstance.metreAccountDAO();
+            mAuthorizationDAO = dbInstance.mAuthorizationDAO();
 
         }
     }

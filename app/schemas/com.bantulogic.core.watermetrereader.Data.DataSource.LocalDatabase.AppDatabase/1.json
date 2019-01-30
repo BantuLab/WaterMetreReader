@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "1325ffa7893c2ce407edb0730311108a",
+    "identityHash": "b75e14cbbe157cfbb6019a409f893f3e",
     "entities": [
       {
         "tableName": "User",
@@ -342,12 +342,98 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "Authorization",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`username` TEXT NOT NULL, `password` TEXT NOT NULL, `user_id` TEXT NOT NULL, `token` TEXT, `user_type` TEXT, `scope` TEXT, `iat` INTEGER, `exp` INTEGER, `aud` TEXT, `iss` TEXT, `logged_out` INTEGER NOT NULL, `logged_in` INTEGER NOT NULL, PRIMARY KEY(`username`))",
+        "fields": [
+          {
+            "fieldPath": "username",
+            "columnName": "username",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "password",
+            "columnName": "password",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sub",
+            "columnName": "user_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "token",
+            "columnName": "token",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "userType",
+            "columnName": "user_type",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "scope",
+            "columnName": "scope",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "iat",
+            "columnName": "iat",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "exp",
+            "columnName": "exp",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "aud",
+            "columnName": "aud",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "iss",
+            "columnName": "iss",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "loggedOut",
+            "columnName": "logged_out",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "loggedIn",
+            "columnName": "logged_in",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "username"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"1325ffa7893c2ce407edb0730311108a\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"b75e14cbbe157cfbb6019a409f893f3e\")"
     ]
   }
 }

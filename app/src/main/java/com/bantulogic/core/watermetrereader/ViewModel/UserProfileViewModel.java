@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities.User;
 import com.bantulogic.core.watermetrereader.Data.Repository.UserRepository;
+import com.bantulogic.core.watermetrereader.Helpers.MetreReaderApp;
 import com.bantulogic.core.watermetrereader.Helpers.Resource;
 
 import java.util.concurrent.Executors;
@@ -16,8 +17,8 @@ import androidx.lifecycle.ViewModel;
 public class UserProfileViewModel extends AndroidViewModel {
     private final UserRepository mUserRepository;
     // TODO: Implement the ViewModel
-    private String mUserId;
     private LiveData<Resource<User>> mUser;
+
 
     //Refactor to use dependency injection with either Dagger2 or Service Locator Pattern
     public UserProfileViewModel(@NonNull Application application){
