@@ -40,6 +40,15 @@ public class AuthorizationRepository {
         this.mAuthorizationDAO = db.mAuthorizationDAO();
         this.mAuthorizationWebAPI = ServiceGenerator.createService(AuthorizationWebAPI.class, username, password);
     }
+    public AuthorizationRepository(Application application){
+        AppDatabase db = AppDatabase.getDatabse(application);
+
+        this.mAuthorizationDAO = db.mAuthorizationDAO();
+    }
+
+    public LiveData<Authorization> getLoggedInUser(){
+        return mAuthorization;
+    }
 
     public LiveData<Resource<Authorization>> login(String username, String password) {
         return new NetworkBoundResource<Authorization, Response>(AppExecutors.getInstance()) {

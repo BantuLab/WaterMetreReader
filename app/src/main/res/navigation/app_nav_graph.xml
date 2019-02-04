@@ -3,57 +3,72 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/dest_login_fragment">
-
+    app:startDestination="@id/dest_metre_accounts_fragment">
+    <!--Global Login Action-->
+    <action
+        android:id="@+id/start_login"
+        app:destination="@+id/login_flow"
+        app:launchSingleTop="true"
+        app:popUpTo="@+id/dest_login_fragment"
+        app:popUpToInclusive="true" />
+    <!--Global Finish Login Action-->
+    <action
+        android:id="@+id/finish_login"
+        app:popUpTo="@id/login_flow"
+        app:popUpToInclusive="true"/>
+    <!--Navigation Graph for Home Flow(loggedIn)-->
+    <action
+        android:id="@+id/global_action_logout"
+        app:destination="@id/login_flow"
+        app:launchSingleTop="true"
+        app:popUpTo="@id/dest_logout_fragment"
+        app:popUpToInclusive="true" />
     <fragment
-        android:id="@+id/dest_login_fragment"
-        android:name="com.bantulogic.core.watermetrereader.UIController.Fragments.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login">
+        android:id="@+id/dest_metre_accounts_fragment"
+        android:name="com.bantulogic.core.watermetrereader.UIController.Fragments.MetreAccountsFragment"
+        android:label="fragment_metre_accounts"
+        tools:layout="@layout/fragment_metre_accounts">
 
-        <action
-            android:id="@+id/action_dest_login_fragment_to_dest_home_nav_graph"
-            app:destination="@id/nested_home_nav_graph" app:launchSingleTop="true"/>
     </fragment>
-    <navigation android:id="@+id/nested_home_nav_graph"
-        app:startDestination="@id/dest_metre_accounts_fragment">
+    <fragment
+        android:id="@+id/dest_reading_detail_fragment"
+        android:name="com.bantulogic.core.watermetrereader.UIController.Fragments.ReadingDetailFragment"
+        android:label="fragment_reading_detail"
+        tools:layout="@layout/fragment_reading_detail" />
+    <fragment
+        android:id="@+id/dest_dashboard_fragment"
+        android:name="com.bantulogic.core.watermetrereader.UIController.Fragments.DashboardFragment"
+        android:label="fragment_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+    <fragment
+        android:id="@+id/dest_logout_fragment"
+        android:name="com.bantulogic.core.watermetrereader.UIController.Fragments.LogoutFragment"
+        android:label="fragment_logout"
+        tools:layout="@layout/fragment_logout" ></fragment>
+
+
+    <!--Navigation Graph for Login Flow-->
+    <navigation
+        android:id="@+id/login_flow"
+        app:startDestination="@id/dest_login_fragment"
+        >
+        <!--Login Fragment Here-->
         <fragment
-            android:id="@+id/dest_metre_accounts_fragment"
-            android:name="com.bantulogic.core.watermetrereader.UIController.Fragments.MetreAccountsFragment"
-            android:label="fragment_metre_accounts"
-            tools:layout="@layout/fragment_metre_accounts">
+            android:id="@+id/dest_login_fragment"
+            android:name="com.bantulogic.core.watermetrereader.UIController.Fragments.LoginFragment"
+            >
+
             <action
-                android:id="@+id/action_dest_home_fragment_to_dest_logout_fragment"
-                app:destination="@id/dest_logout_fragment" />
-            <action
-                android:id="@+id/action_dest_home_fragment_to_dest_dashboard_fragment"
-                app:destination="@id/dest_dashboard_fragment" />
-            <action
-                android:id="@+id/action_dest_home_fragment_to_dest_reading_detail_fragment"
-                app:destination="@id/dest_reading_detail_fragment" />
+                android:id="@+id/signup"
+                app:destination="@id/dest_signup_fragment"/>
+
         </fragment>
+        <!--Signup Fragment Here-->
         <fragment
-            android:id="@+id/dest_logout_fragment"
-            android:name="com.bantulogic.core.watermetrereader.UIController.Fragments.LogoutFragment"
-            android:label="fragment_logout"
-            tools:layout="@layout/fragment_logout" >
-            <action
-                android:id="@+id/action_dest_logout_fragment_to_dest_home_fragment"
-                app:destination="@id/dest_metre_accounts_fragment"
-                app:launchSingleTop="true"
-                app:popUpTo="@id/dest_metre_accounts_fragment"
-                app:popUpToInclusive="true" /><action android:id="@+id/action_dest_logout_fragment_to_dest_login_fragment" app:destination="@id/dest_login_fragment" app:popUpTo="@id/dest_logout_fragment" app:popUpToInclusive="true" app:launchSingleTop="true"/>
+            android:id="@+id/dest_signup_fragment">
         </fragment>
-        <fragment
-            android:id="@+id/dest_reading_detail_fragment"
-            android:name="com.bantulogic.core.watermetrereader.UIController.Fragments.ReadingDetailFragment"
-            android:label="fragment_reading_detail"
-            tools:layout="@layout/fragment_reading_detail" />
-        <fragment
-            android:id="@+id/dest_dashboard_fragment"
-            android:name="com.bantulogic.core.watermetrereader.UIController.Fragments.DashboardFragment"
-            android:label="fragment_dashboard"
-            tools:layout="@layout/fragment_dashboard" />
+
     </navigation>
+
 
 </navigation>

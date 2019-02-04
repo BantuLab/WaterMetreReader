@@ -4,8 +4,11 @@ import android.app.Application;
 
 import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities.Authorization;
 import com.bantulogic.core.watermetrereader.Data.DataSource.LocalDatabase.Entities.Customer;
+import com.bantulogic.core.watermetrereader.Data.Repository.AuthorizationRepository;
+import com.bantulogic.core.watermetrereader.ViewModel.AuthorizationViewModel;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProviders;
 
 public class MetreReaderApp extends Application {
     private static MetreReaderApp mApp;
@@ -15,13 +18,15 @@ public class MetreReaderApp extends Application {
     private String mPassword;
 
     private static LiveData<Authorization> mAuthorization;
+    private AuthorizationRepository mAuthorizationRepository;
     private  AuthenticationListener mAuthenticationListener;
 
     @Override
     public void onCreate() {
         super.onCreate();
         mApp = this;
-
+        mAuthorizationRepository = new AuthorizationRepository(this);
+        mAuthorization = mAuthorizationRepository.getLoggedInUser();
         //setAuthenticationListener(this.mAuthenticationListener);
     }
 

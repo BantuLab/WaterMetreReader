@@ -51,6 +51,7 @@ public class LoginFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mBtnLogin = view.findViewById(R.id.btnLogin);
 
-        mBtnLogin.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.nested_home_nav_graph, null));
+//        mBtnLogin.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.nested_home_nav_graph, null));
     }
+
 }
