@@ -13,12 +13,12 @@ import retrofit2.http.Query;
 
 public interface AuthorizationWebAPI {
 
-    @POST("/api/auth/login")
+    @POST("/water/api/auth/login")
     LiveData<ApiResponse<Token>> login(
             @Query("username") String username,
             @Query("password") String password
     );
 
-    @POST("/api/auth/renew_token")
+    @POST("/water/api/auth/renew_token")
     LiveData<ApiResponse<Token>> renew_token();
 }

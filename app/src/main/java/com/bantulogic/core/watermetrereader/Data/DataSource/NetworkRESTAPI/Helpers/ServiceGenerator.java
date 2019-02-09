@@ -8,7 +8,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceGenerator {
-    public static final String API_BASE_URL = "https://metre-reader-server.herokuapp.com/water/";
+    public static final String API_BASE_URL = "https://metre-reader-server.herokuapp.com/";
 
     private static OkHttpClient.Builder sOkHttpClient = new OkHttpClient.Builder();
 

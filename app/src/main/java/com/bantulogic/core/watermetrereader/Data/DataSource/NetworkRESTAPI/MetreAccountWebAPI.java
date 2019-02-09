@@ -11,7 +11,7 @@ import retrofit2.http.Query;
 
 public interface MetreAccountWebAPI {
 
-    @GET("api/metre_accounts")
+    @GET("/water/api/metre_accounts")
     Call<List<MetreAccount>> getMetreAccountsByUser(
             @Query("assigned_user_id") String assignedUserId
     );

@@ -11,7 +11,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface UserWebAPI {
-    @GET("/api/users/{user_id}")
+    @GET("/water/api/users/{user_id}")
     LiveData<ApiResponse<User>> getUser(@Path("user_id") String user_id);
 
 }
