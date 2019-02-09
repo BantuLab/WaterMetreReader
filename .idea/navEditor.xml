@@ -61,6 +61,11 @@
                       <LayoutPositions />
                     </value>
                   </entry>
+                  <entry key="global_action_logout">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
                   <entry key="login_flow">
                     <value>
                       <LayoutPositions>
@@ -72,11 +77,6 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_global_nested_home_nav_graph">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
                             <entry key="dest_login_fragment">
                               <value>
                                 <LayoutPositions>
@@ -85,6 +85,15 @@
                                       <option name="x" value="12" />
                                       <option name="y" value="12" />
                                     </Point>
+                                  </option>
+                                  <option name="myPositions">
+                                    <map>
+                                      <entry key="signup">
+                                        <value>
+                                          <LayoutPositions />
+                                        </value>
+                                      </entry>
+                                    </map>
                                   </option>
                                 </LayoutPositions>
                               </value>

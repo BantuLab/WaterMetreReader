@@ -25,6 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import okhttp3.ResponseBody;
 import retrofit2.Response;
 
 public class AuthorizationRepository {
@@ -32,6 +33,7 @@ public class AuthorizationRepository {
     private AuthorizationWebAPI mAuthorizationWebAPI;
 
     private MutableLiveData<Authorization> mAuthorization;
+    private LiveData<Authorization> mAuth;
 
     public AuthorizationRepository(Application application, String username, String password){
 
@@ -50,14 +52,13 @@ public class AuthorizationRepository {
         return mAuthorization;
     }
 
-    public LiveData<Resource<Authorization>> login(String username, String password) {
-        return new NetworkBoundResource<Authorization, Response>(AppExecutors.getInstance()) {
+    public LiveData<Resource<Authorization>> login(String username, String password){
+        return new NetworkBoundResource<Authorization, Token>(AppExecutors.getInstance()) {
             @Override
-            protected void saveCallResult(@NonNull Response item) {
+            protected void saveCallResult(@NonNull Token item) {
                 //Create Auth Object from response
                 try{
-                    Token newToken = (Token)item.body();
-                    String token = newToken.getToken();
+                    String token = item.getToken();
                     boolean loggedIn = true;
                     boolean loggedOut = false;
                     //Decode jwt token
@@ -90,17 +91,14 @@ public class AuthorizationRepository {
                     MetreReaderApp.setLoggedInUserAuthorization(mAuthorization);
                     mAuthorizationDAO.insertAuth(auth);
                     //Set App Logged-In User Object
-
                 }catch (DecodeException e){
                     Log.e("Chaiwa", "Error during decoding jwt token: " + e.getMessage());
                 }
-
             }
 
             @Override
             protected boolean shouldFetch(@Nullable Authorization data) {
-                //Always fetch . Apply rate limiter later(Rate Limiter can be based on whether
-                //the token has expired
+                //Apply logic to check when to fetch, set RateLimiter
                 return true;
             }
 
@@ -109,34 +107,37 @@ public class AuthorizationRepository {
             protected LiveData<Authorization> loadFromDb() {
                 //Invalidate Auth if expired
                 Authorization authObj;
-                LiveData<Authorization> auth = mAuthorizationDAO.login(username, password);
-                if (auth != null){
-                    authObj = auth.getValue();
-                    if (authObj.isTokenExpired()){
-                        mAuthorizationDAO.invalidateAuth(authObj);
-                        //Dispatch token expiry error here so the ViewModel can be prompted call
-                        // login again and fetch it from the network
-                        //In the meantime, just return null
-                        return null;
+                if (mAuth == null){
+                    mAuth = mAuthorizationDAO.login(username, password);
+                    authObj = mAuth.getValue();
+                    if (authObj != null){
+                        if (authObj.isTokenExpired()){
+                            mAuthorizationDAO.invalidateAuth(authObj);
+                            //Dispatch token expiry error here so the ViewModel can be prompted call
+                            // login again and fetch it from the network
+                            //In the meantime, just return null
+                            return null;
+                        }
+                        else {
+                            return mAuth;
+                        }
                     }
-                    else {
-                        return auth;
-                    }
+
                 }
-                return null;
+                return mAuth;
             }
 
             @NonNull
             @Override
-            protected LiveData<ApiResponse<Response>> createCall() {
+            protected LiveData<ApiResponse<Token>> createCall() {
                 return mAuthorizationWebAPI.login(username, password);
             }
 
             @Override
             protected void onFetchFailed() {
                 //maybe reset RateLimiter to allow App to ask for login  again?
-
             }
         }.getAsLiveData();
     }
+
 }
