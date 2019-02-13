@@ -4,7 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".UIController.Fragments.MetreAccountsFragment">
+    tools:context=".uicontrollers.fragments.MetreAccountsFragment">
+
+    <TextView
+        android:id="@+id/textViewHomeTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/title_home"
+        app:layout_constraintBottom_toTopOf="@+id/rv_metre_ccounts_list"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <androidx.recyclerview.widget.RecyclerView

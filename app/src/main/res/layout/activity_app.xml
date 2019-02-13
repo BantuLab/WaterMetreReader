@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/coordinator"
-    tools:context=".UIController.Activities.AppActivity">
+    tools:context=".uicontrollers.activities.AppActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -22,6 +22,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navGraph="@navigation/app_nav_graph"></fragment>
+
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/nav_bottom_nav_view"
             android:layout_width="match_parent"
@@ -32,7 +33,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:menu="@menu/navigation">
-        </com.google.android.material.bottomnavigation.BottomNavigationView>
+            app:menu="@menu/navigation"></com.google.android.material.bottomnavigation.BottomNavigationView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
