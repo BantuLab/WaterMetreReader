@@ -65,7 +65,7 @@ public class UserRepository {
     RateLimiter<String> mUserRateLimiter = new RateLimiter<String>(10, TimeUnit.MINUTES);
 
     public UserRepository(Application application, Executor executor){
-        AppDatabase db  = AppDatabase.getDatabse(application);
+        AppDatabase db  = AppDatabase.getDatabase(application);
 
         this.mUserDAO = db.userDAO();
         this.mAllUsers = mUserDAO.getAllUsers();

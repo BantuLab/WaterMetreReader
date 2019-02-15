@@ -3,7 +3,6 @@ package com.bantulogic.core.watermetrereader.data.repository;
 import android.app.Application;
 import android.util.Log;
 
-import com.auth0.android.jwt.DecodeException;
 import com.auth0.android.jwt.JWT;
 import com.bantulogic.core.watermetrereader.data.datasource.localdatabase.AppDatabase;
 import com.bantulogic.core.watermetrereader.data.datasource.localdatabase.dao.AuthorizationDAO;
@@ -33,13 +32,13 @@ public class AuthorizationRepository {
 
     public AuthorizationRepository(Application application, String username, String password){
 
-        AppDatabase db = AppDatabase.getDatabse(application);
+        AppDatabase db = AppDatabase.getDatabase(application);
 
         this.mAuthorizationDAO = db.mAuthorizationDAO();
         this.mAuthorizationWebAPI = ServiceGenerator.createService(AuthorizationWebAPI.class, username, password);
     }
     public AuthorizationRepository(Application application){
-        AppDatabase db = AppDatabase.getDatabse(application);
+        AppDatabase db = AppDatabase.getDatabase(application);
 
         this.mAuthorizationDAO = db.mAuthorizationDAO();
     }
@@ -91,11 +90,15 @@ public class AuthorizationRepository {
 
                     //Save
                     mAuthorization.postValue(auth);
-//                    MetreReaderApp.setLoggedInUserAuthorization(mAuthorization);
-                    mAuthorizationDAO.insertAuth(auth);
+                    long result = mAuthorizationDAO.insertAuth(auth);
+                    if (result == 1){
+                        Log.i("AuthRepo:", "Auth token saved successuflly. Code: "+ String.valueOf(result));
+                    } else {
+                        Log.i("AuthRepo:", "Error saving Auth token to database. Code: "+ String.valueOf(result));
+                    }
                     //Set App Logged-In User Object
-                }catch (DecodeException e){
-                    Log.e("Chaiwa", "Error during decoding jwt token: " + e.getMessage());
+                }catch (Exception e){
+                    Log.e("Chaiwa", "Error during decoding or saving jwt token: " + e.getMessage());
                 }
             }
 

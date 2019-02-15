@@ -32,13 +32,14 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract CustomerDAO customerDAO();
     public abstract AuthorizationDAO mAuthorizationDAO();
 
-    public static AppDatabase getDatabse(final Context context){
+    public static AppDatabase getDatabase(final Context context){
         if (INSTANCE == null){
             synchronized (AppDatabase.class){
                 if(INSTANCE == null){
                     INSTANCE = Room.databaseBuilder(
-                            context.getApplicationContext(), AppDatabase.class, "metre_reader_db")
+                            context.getApplicationContext(), AppDatabase.class, "metre_reader_db.db")
                             .addCallback(sRoomDatabaseCallback)
+                            .fallbackToDestructiveMigration()
                             .build();
                 }
             }
@@ -51,7 +52,7 @@ public abstract class AppDatabase extends RoomDatabase {
                 @Override
                 public void onOpen(@NonNull SupportSQLiteDatabase db) {
                     super.onOpen(db);
-                    new populateDbAsync(INSTANCE).execute();
+                    //new populateDbAsync(INSTANCE).execute();
                 }
 
                 @Override
@@ -60,7 +61,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     //Setup the DB with some test data
                     //When the MetreReaderApp is in production we will initialize this with the data from the
                     //Backend via REST API
-                    new initializeDbAsync(INSTANCE).execute();
+                   // new initializeDbAsync(INSTANCE).execute();
                 }
             };
 
@@ -100,7 +101,7 @@ public abstract class AppDatabase extends RoomDatabase {
         }
 
 
-        private initializeDbAsync(AppDatabase dbInstance){
+        public initializeDbAsync(AppDatabase dbInstance){
             mCustomerDAO = dbInstance.customerDAO();
             mUserDAO = dbInstance.userDAO();
             mMetreReadingDAO = dbInstance.metreReadingDAO();

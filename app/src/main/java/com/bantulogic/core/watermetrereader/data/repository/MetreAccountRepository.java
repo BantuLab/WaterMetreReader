@@ -36,7 +36,7 @@ public class MetreAccountRepository {
     //Constructor
     public MetreAccountRepository(Application application){
         //Local API Initialization
-        AppDatabase db = AppDatabase.getDatabse(application);
+        AppDatabase db = AppDatabase.getDatabase(application);
 
         mMetreAccountDAO = db.metreAccountDAO();
         mAllMetreAccounts = mMetreAccountDAO.getAllMetreAccountsByUser(mAuthorization.getValue().getSub());

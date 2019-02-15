@@ -27,7 +27,7 @@ public class CustomerRepository {
         //Ideally, this should be a call to the in-memory currently logged-in user
         User currentUser = new User("1212","weewe","eett","dffd","male",new Date(),"field_agent","dta_collector", new Date());
         //Local Cache
-        AppDatabase db = AppDatabase.getDatabse(application);
+        AppDatabase db = AppDatabase.getDatabase(application);
         this.mCustomerDAO = db.customerDAO();
         this.mAllCustomers = db.customerDAO().getAllCustomers();
         this.mCustomer = db.customerDAO().getCustomerById(currentUser.getUserId());
