@@ -5,13 +5,21 @@ import android.util.Log;
 
 import okhttp3.Credentials;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceGenerator {
-    public static final String API_BASE_URL = "http://metre-reader.bantulabtech.com";
+    public static final String API_BASE_URL = "http://metre-reader.bantulabtech.com/";
 
-    private static OkHttpClient.Builder sOkHttpClient = new OkHttpClient.Builder();
+    private static HttpLoggingInterceptor mHttpLoggingInterceptor = new HttpLoggingInterceptor()
+            .setLevel(HttpLoggingInterceptor.Level.BODY);
+
+    private static OkHttpClient.Builder sOkHttpClient = new OkHttpClient.Builder()
+            .addInterceptor(mHttpLoggingInterceptor);
+
+
+
 
     private static Retrofit.Builder sBuilder =
             new Retrofit.Builder()
@@ -30,6 +38,7 @@ public class ServiceGenerator {
         if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)){
             String authToken = Credentials.basic(username, password);
             Log.i("Chaiwa","Authorization: "+authToken);
+            Log.i("ServiceGenerator","Authorization: "+authToken);
 
             return createService(serviceClass, authToken);
         }
@@ -41,7 +50,7 @@ public class ServiceGenerator {
             Class<S> serviceClass, final String authToken
     ){
         if (!TextUtils.isEmpty(authToken)){
-            AuthenticationInterceptor interceptor = new AuthenticationInterceptor(authToken);
+            AuthenticationHeaderInterceptor interceptor = new AuthenticationHeaderInterceptor(authToken);
             //Add Token Renew Logic
            // TokenRenewInterceptor tokenRenewInterceptor = new TokenRenewInterceptor();
             /**

@@ -27,7 +27,7 @@ import com.bantulogic.core.watermetrereader.databinding.FragmentLogoutBinding;
  */
 public class LogoutFragment extends Fragment {
 
-    private AuthorizationViewModel mModel;
+    private AuthorizationViewModel mAuthorizationViewModel;
     private Authorization mAuth;
     private FragmentLogoutBinding mBinding;
 
@@ -38,13 +38,11 @@ public class LogoutFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mModel = ViewModelProviders.of(getActivity()).get(AuthorizationViewModel.class);
-        mModel.getLoggedInUserAuth().observe(getActivity(), new Observer<Authorization>() {
+        mAuthorizationViewModel = ViewModelProviders.of(getActivity()).get(AuthorizationViewModel.class);
+        mAuthorizationViewModel.getLoggedInUserAuth().observe(getActivity(), new Observer<Authorization>() {
             @Override
             public void onChanged(Authorization authorization) {
-
                 mAuth = authorization;
-//                mAuth.getUsername()
             }
         });
         // Inflate the layout for this fragment
@@ -63,7 +61,8 @@ public class LogoutFragment extends Fragment {
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Navigation.findNavController(view).navigate(R.id.global_action_logout);
+//                        Navigation.findNavController(view).navigate(R.id.global_action_logout);
+                        mAuthorizationViewModel.logoutCurrentUser();
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {

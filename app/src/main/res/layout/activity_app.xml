@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout >
+
+    <data>
+        <import type="android.view.View"/>
+        <import type="android.util.SparseArray"/>
+        <import type="java.util.Map"/>
+        <import type="java.util.List"/>
+        <import type="java.util.Calendar"/>
+        <variable name="list" type="List&lt;String>"/>
+        <variable name="sparse" type="SparseArray&lt;String>"/>
+        <variable name="map" type="Map&lt;String, String>"/>
+        <variable name="index" type="int"/>
+        <variable name="key" type="String"/>
+        <variable
+            name="viewModel"
+            type="com.bantulogic.core.watermetrereader.data.datasource.localdatabase.entities.Authorization"
+            />
+
+    </data>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,7 +29,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <fragment
             android:id="@+id/app_nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
@@ -30,9 +48,11 @@
             android:background="@color/white"
             app:itemIconTint="@color/bottom_navigation_colors"
             app:itemTextColor="@color/bottom_navigation_colors"
+            android:visibility="@{(viewModel.loggedIn &amp;&amp; !viewModel.exp.before(Calendar.getInstance().getTime())) ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:menu="@menu/navigation"></com.google.android.material.bottomnavigation.BottomNavigationView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

@@ -6,7 +6,7 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class AuthenticationInterceptor implements Interceptor {
+public class AuthenticationHeaderInterceptor implements Interceptor {
     //region COMMENTS/NOTES
     /**
      * Request an auth token... again
@@ -106,7 +106,7 @@ public class AuthenticationInterceptor implements Interceptor {
     //endregion
     private String authToken;
 
-    public AuthenticationInterceptor(String token) {
+    public AuthenticationHeaderInterceptor(String token) {
         this.authToken = token;
     }
 

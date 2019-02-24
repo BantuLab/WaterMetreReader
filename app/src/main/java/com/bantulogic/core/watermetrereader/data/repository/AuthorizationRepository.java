@@ -17,54 +17,61 @@ import com.bantulogic.core.watermetrereader.helpers.Resource;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 public class AuthorizationRepository {
     private AuthorizationDAO mAuthorizationDAO;
     private AuthorizationWebAPI mAuthorizationWebAPI;
 
     private MutableLiveData<Authorization> mAuthorization = new MutableLiveData<>();
-    private LiveData<Authorization> mAuth;
+    private Authorization mAuthorizationObj;
 
-    public AuthorizationRepository(Application application, String username, String password){
-
-        AppDatabase db = AppDatabase.getDatabase(application);
-
-        this.mAuthorizationDAO = db.mAuthorizationDAO();
-        this.mAuthorizationWebAPI = ServiceGenerator.createService(AuthorizationWebAPI.class, username, password);
-    }
     public AuthorizationRepository(Application application){
+
         AppDatabase db = AppDatabase.getDatabase(application);
 
         this.mAuthorizationDAO = db.mAuthorizationDAO();
     }
 
-    public MutableLiveData<Authorization> getLoggedInUser(){
-        if (mAuthorization ==  null){
-            LiveData<Authorization> auth = this.mAuthorizationDAO.getLoggedInUser();
-            if(auth != null && !auth.getValue().isTokenExpired() ){
-                mAuthorization.setValue(auth.getValue());
-           }
-        }
-        return mAuthorization;
+    public LiveData<Authorization> getLoggedInUser(){
+//            AppExecutors.getInstance().getDiskIO().execute(()->{
+//                mAuthorization.postValue(authorization);
+                mAuthorization.postValue(mAuthorizationDAO.getLoggedInUser().getValue());
+//        try {
+//            mAuthorization.postValue(getValueSync(mAuthorizationDAO.getLoggedInUser()));
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//                mAuthorization. this.mAuthorizationDAO.getLoggedInUser();
+//                Log.i("RepoGetLoggedIn:", "LoggedInUser is: "+authorization);
+//            });
+
+        return this.mAuthorization;
     }
+
+
 
     public LiveData<Resource<Authorization>> login(String username, String password){
+
+        this.mAuthorizationWebAPI = ServiceGenerator.createService(AuthorizationWebAPI.class, username, password);
+
         return new NetworkBoundResource<Authorization, Token>(AppExecutors.getInstance()) {
             @Override
             protected void saveCallResult(@NonNull Token item) {
-                //Create Auth Object from response
                 try{
                     String token = item.getToken();
                     boolean loggedIn = true;
                     boolean loggedOut = false;
-                    //Decode jwt token
+
                     JWT jwt = new JWT(token);
-                    //Get token claims
+
                     String sub = jwt.getSubject();
                     String userType = jwt.getClaim("user_type").asString();
                     List<String> scope = jwt.getClaim("scope").asList(String.class);
@@ -72,7 +79,7 @@ public class AuthorizationRepository {
                     Date exp = jwt.getExpiresAt();
                     List<String> aud = jwt.getAudience();
                     String iss = jwt.getIssuer();
-                    //Create auth from token response
+
                     Authorization auth = new Authorization(
                             username,
                             password,
@@ -89,9 +96,10 @@ public class AuthorizationRepository {
                     );
 
                     //Save
-                    mAuthorization.postValue(auth);
+//                    mAuthorization = new MutableLiveData<>();
+//                    mAuthorization.postValue(auth);
                     long result = mAuthorizationDAO.insertAuth(auth);
-                    if (result == 1){
+                    if (result >= 1){
                         Log.i("AuthRepo:", "Auth token saved successuflly. Code: "+ String.valueOf(result));
                     } else {
                         Log.i("AuthRepo:", "Error saving Auth token to database. Code: "+ String.valueOf(result));
@@ -113,9 +121,10 @@ public class AuthorizationRepository {
             protected LiveData<Authorization> loadFromDb() {
                 //Invalidate Auth if expired
                 Authorization authObj;
-                if (mAuth == null){
-                    mAuth = mAuthorizationDAO.login(username, password);
-                    authObj = mAuth.getValue();
+                if (mAuthorization == null){
+//                    mAuthorization.postValue(mAuthorizationDAO.getLoggedInUser());
+                    mAuthorization.postValue(mAuthorizationDAO.getLoggedInUser().getValue());
+                    authObj = mAuthorization.getValue();
                     if (authObj != null){
                         if (authObj.isTokenExpired()){
                             mAuthorizationDAO.invalidateAuth(authObj);
@@ -125,12 +134,12 @@ public class AuthorizationRepository {
                             return null;
                         }
                         else {
-                            return mAuth;
+                            return mAuthorization;
                         }
                     }
 
                 }
-                return mAuth;
+                return mAuthorization;
             }
 
             @NonNull
@@ -144,6 +153,20 @@ public class AuthorizationRepository {
                 //maybe reset RateLimiter to allow App to ask for login  again?
             }
         }.getAsLiveData();
+    }
+
+    public void logoutCurrentUser(){
+        if (this.mAuthorization != null){
+            AppExecutors.getInstance().getDiskIO().execute(()->{
+                mAuthorizationObj = this.mAuthorization.getValue();
+                mAuthorizationObj.setLoggedOut(true);
+                mAuthorizationObj.setLoggedIn(false);
+
+                mAuthorizationDAO.logoutCurrentUser(mAuthorizationObj);
+//                Log.i("logoutCurrentUser:", "UserLoggedOut?: "+mAuthorizationDAO.getLoggedInUser().isLoggedOut());
+            });
+
+        }
     }
 
 }

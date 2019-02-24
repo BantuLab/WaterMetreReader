@@ -11,12 +11,12 @@ import retrofit2.http.POST;
 public interface AuthorizationWebAPI {
 
     @FormUrlEncoded
-    @POST("/water/api/auth/login")
+    @POST("water/api/auth/login")
     LiveData<ApiResponse<Token>> login(
             @Field("username") String username,
             @Field("password") String password
     );
 
-    @POST("/water/api/auth/renew_token")
+    @POST("water/api/auth/renew_token")
     LiveData<ApiResponse<Token>> renew_token();
 }

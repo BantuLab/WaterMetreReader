@@ -129,7 +129,10 @@ public  class Authorization{
 
 
     public boolean isTokenExpired(){
-        return this.exp.after(Calendar.getInstance().getTime());
+        return this.exp.before(Calendar.getInstance().getTime());
+    }
+    public boolean isInvalidToken(){
+        return this.isTokenExpired() || !this.isLoggedIn();
     }
     public boolean isLoggedOut(){
         return this.loggedOut;

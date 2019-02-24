@@ -83,25 +83,8 @@ public class MetreAccountsFragment extends Fragment {
         });
     }
 
-    private void initializeMetreAccountViewModel() {
-        //region NOTES
-
-        /**
-         * The MetreAccountsViewModel is scoped to the AppActivity and shared with other components
-         * in the App such as other Fragments.
-         *
-         * Add an observer for the LiveData returned by the ViewModel's getMetreAccounts().
-         * It currently returns results from the Web, but the repo can be changed to return from
-         * local cache/database
-         * The onChanged() method fires when the observed data changes and the activity is in the
-         * foreground.
-         **/
-
-        //endregion
-        mMetreAccountViewModel = ViewModelProviders.of(getActivity()).get(MetreAccountViewModel.class);
-    }
-
     private void observeMetreAccountsData() {
+        mMetreAccountViewModel = ViewModelProviders.of(getActivity()).get(MetreAccountViewModel.class);
         mMetreAccountViewModel.getMetreAccounts().observe(this, new Observer<List<MetreAccount>>() {
             @Override
             public void onChanged(@Nullable List<MetreAccount> metreAccounts) {

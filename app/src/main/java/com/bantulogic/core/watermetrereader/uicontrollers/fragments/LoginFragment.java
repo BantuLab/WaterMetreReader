@@ -80,10 +80,10 @@ public class LoginFragment extends Fragment {
                            Log.i("onChangedAuth","Auth.Status: "+ auth.status);
                            //Set loggedInUser
                            //mAuthData = mAuthorization.data;
-                           mAuthorizationViewModel.setLoggedInUserAuth(auth.data);
+//                           mAuthorizationViewModel.setLoggedInUserAuth(auth.data);
                            //mAuthData = mAuthorization.data;
                            //Log.i("AuthToken", mAuthData.getToken());
-                           Log.i("onChangedAuth","Token: "+auth.data.getToken());
+//                           Log.i("onChangedAuth","Token: "+auth.data.getToken());
                            //Pop back to whatever fragment called the login fragment
                            mNavController.popBackStack(R.id.dest_login_fragment, true);
                        }

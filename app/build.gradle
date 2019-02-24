@@ -37,6 +37,7 @@ dependencies {
     def paging_version = "2.1.0-rc01"
     def navigation_version = "1.0.0-alpha08"
     def work_version = "1.0.0-alpha13"
+    def oktthp3_logging_version = "3.13.1"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     //ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version"
@@ -55,8 +56,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation 'com.google.code.gson:gson:2.8.5'
-    implementation 'com.google.firebase:firebase-messaging:17.3.4'
     implementation 'com.auth0.android:jwtdecode:1.2.0'
+    implementation "com.squareup.okhttp3:logging-interceptor:$oktthp3_logging_version"
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
