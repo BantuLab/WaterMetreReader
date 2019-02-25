@@ -39,24 +39,15 @@ public class AuthorizationRepository {
 
         this.mAuthorizationDAO = db.mAuthorizationDAO();
     }
-
-    public LiveData<Authorization> getLoggedInUser(){
-//            AppExecutors.getInstance().getDiskIO().execute(()->{
-//                mAuthorization.postValue(authorization);
-                mAuthorization.postValue(mAuthorizationDAO.getLoggedInUser().getValue());
-//        try {
-//            mAuthorization.postValue(getValueSync(mAuthorizationDAO.getLoggedInUser()));
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//                mAuthorization. this.mAuthorizationDAO.getLoggedInUser();
-//                Log.i("RepoGetLoggedIn:", "LoggedInUser is: "+authorization);
-//            });
-
-        return this.mAuthorization;
+    public MutableLiveData<Authorization> getAuthorizationResult() {
+        return mAuthorization;
     }
 
-
+    public LiveData<Authorization> getLoggedInUser(){
+//        this.mAuthorization = mAuthorizationDAO.getLoggedInUser();
+        mAuthorization.postValue(mAuthorizationDAO.getLoggedInUser().getValue());
+        return this.mAuthorization;
+    }
 
     public LiveData<Resource<Authorization>> login(String username, String password){
 

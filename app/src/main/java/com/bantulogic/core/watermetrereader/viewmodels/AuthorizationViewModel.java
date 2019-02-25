@@ -25,6 +25,7 @@ public class AuthorizationViewModel extends AndroidViewModel {
 
         Log.i("AuthViewModel","AuthorizationViewModel(application) called!");
     }
+
     public LiveData<Resource<Authorization>> login(String username, String password){
 
         this.mAuthorization = this.mAuthorizationRepository.login(username, password);
@@ -32,10 +33,12 @@ public class AuthorizationViewModel extends AndroidViewModel {
         return this.mAuthorization;
     }
     public void init(){
-        this.loggedInUserAuth = this.mAuthorizationRepository.getLoggedInUser();
+//        this.loggedInUserAuth = this.mAuthorizationRepository.getLoggedInUser();
+        mAuthorizationRepository.getLoggedInUser();
     }
     public LiveData<Authorization> getLoggedInUserAuth() {
-        return this.loggedInUserAuth;
+//        return this.loggedInUserAuth;
+        return mAuthorizationRepository.getAuthorizationResult();
     }
     public void logoutCurrentUser(){
         this.mAuthorizationRepository.logoutCurrentUser();
