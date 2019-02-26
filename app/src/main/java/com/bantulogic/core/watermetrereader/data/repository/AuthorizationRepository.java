@@ -29,30 +29,18 @@ import androidx.lifecycle.Observer;
 public class AuthorizationRepository {
     private AuthorizationDAO mAuthorizationDAO;
     private AuthorizationWebAPI mAuthorizationWebAPI;
-
-    private MutableLiveData<Authorization> mAuthorization = new MutableLiveData<>();
-    private Authorization mAuthorizationObj;
+    private LiveData<Authorization> mAuthorization;
 
     public AuthorizationRepository(Application application){
-
         AppDatabase db = AppDatabase.getDatabase(application);
-
         this.mAuthorizationDAO = db.mAuthorizationDAO();
+        this.mAuthorization = mAuthorizationDAO.getLoggedInUser();
     }
-    public MutableLiveData<Authorization> getAuthorizationResult() {
+    public LiveData<Authorization> getAuthorizationResult() {
         return mAuthorization;
     }
-
-    public LiveData<Authorization> getLoggedInUser(){
-//        this.mAuthorization = mAuthorizationDAO.getLoggedInUser();
-        mAuthorization.postValue(mAuthorizationDAO.getLoggedInUser().getValue());
-        return this.mAuthorization;
-    }
-
     public LiveData<Resource<Authorization>> login(String username, String password){
-
         this.mAuthorizationWebAPI = ServiceGenerator.createService(AuthorizationWebAPI.class, username, password);
-
         return new NetworkBoundResource<Authorization, Token>(AppExecutors.getInstance()) {
             @Override
             protected void saveCallResult(@NonNull Token item) {
@@ -85,17 +73,7 @@ public class AuthorizationRepository {
                             loggedOut,
                             loggedIn
                     );
-
-                    //Save
-//                    mAuthorization = new MutableLiveData<>();
-//                    mAuthorization.postValue(auth);
-                    long result = mAuthorizationDAO.insertAuth(auth);
-                    if (result >= 1){
-                        Log.i("AuthRepo:", "Auth token saved successuflly. Code: "+ String.valueOf(result));
-                    } else {
-                        Log.i("AuthRepo:", "Error saving Auth token to database. Code: "+ String.valueOf(result));
-                    }
-                    //Set App Logged-In User Object
+                    mAuthorizationDAO.insertAuth(auth);
                 }catch (Exception e){
                     Log.e("Chaiwa", "Error during decoding or saving jwt token: " + e.getMessage());
                 }
@@ -110,26 +88,6 @@ public class AuthorizationRepository {
             @NonNull
             @Override
             protected LiveData<Authorization> loadFromDb() {
-                //Invalidate Auth if expired
-                Authorization authObj;
-                if (mAuthorization == null){
-//                    mAuthorization.postValue(mAuthorizationDAO.getLoggedInUser());
-                    mAuthorization.postValue(mAuthorizationDAO.getLoggedInUser().getValue());
-                    authObj = mAuthorization.getValue();
-                    if (authObj != null){
-                        if (authObj.isTokenExpired()){
-                            mAuthorizationDAO.invalidateAuth(authObj);
-                            //Dispatch token expiry error here so the ViewModel can be prompted call
-                            // login again and fetch it from the network
-                            //In the meantime, just return null
-                            return null;
-                        }
-                        else {
-                            return mAuthorization;
-                        }
-                    }
-
-                }
                 return mAuthorization;
             }
 
@@ -149,15 +107,11 @@ public class AuthorizationRepository {
     public void logoutCurrentUser(){
         if (this.mAuthorization != null){
             AppExecutors.getInstance().getDiskIO().execute(()->{
-                mAuthorizationObj = this.mAuthorization.getValue();
+                Authorization mAuthorizationObj = this.mAuthorization.getValue();
                 mAuthorizationObj.setLoggedOut(true);
                 mAuthorizationObj.setLoggedIn(false);
-
                 mAuthorizationDAO.logoutCurrentUser(mAuthorizationObj);
-//                Log.i("logoutCurrentUser:", "UserLoggedOut?: "+mAuthorizationDAO.getLoggedInUser().isLoggedOut());
             });
-
         }
     }
-
 }

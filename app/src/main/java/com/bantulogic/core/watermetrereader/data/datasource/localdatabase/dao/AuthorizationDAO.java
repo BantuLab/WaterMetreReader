@@ -19,7 +19,7 @@ public interface AuthorizationDAO {
     LiveData<Authorization> getLoggedInUser();
 
     @Insert(onConflict = REPLACE)
-    long insertAuth(Authorization authorization);
+    void insertAuth(Authorization authorization);
 
     @Update
     void logoutCurrentUser(Authorization authorization);

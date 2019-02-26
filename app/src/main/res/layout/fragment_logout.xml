@@ -11,9 +11,13 @@
         <variable name="index" type="int"/>
         <variable name="key" type="String"/>
         <variable
+            name="calendar"
+            type="java.util.Calendar"/>
+        <variable
             name="viewModel"
             type="com.bantulogic.core.watermetrereader.data.datasource.localdatabase.entities.Authorization"
             />
+
 
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -41,7 +45,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewLogout"
-        tools:src="@tools:sample/avatars[10]" />
+        android:src="@drawable/avatar_4" />
 
     <TextView
         android:id="@+id/textViewUsername"
@@ -73,31 +77,20 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:text="@{viewModel.sub}"
-        app:layout_constraintBottom_toTopOf="@+id/textViewToken"
+        android:text="@{@string/user_id(viewModel.sub)}"
+        app:layout_constraintBottom_toTopOf="@+id/textViewUserType"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewPassword" />
 
     <TextView
-        android:id="@+id/textViewToken"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@{viewModel.token}"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewUserId" />
-
-    <TextView
         android:id="@+id/textViewUserType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@{viewModel.userType}"
+        android:text="@{@string/user_type(viewModel.userType)}"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewToken" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewUserId" />
 
     <TextView
         android:id="@+id/textViewPermissions"
@@ -113,7 +106,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:text="@string/issued_at"
+        android:text="@{@string/issued_at(viewModel.iat)}"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewPermissions" />
@@ -123,7 +116,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:text="@string/expires_at"
+        android:text="@{@string/expires_at(viewModel.exp)}"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewIssuedAt" />
@@ -133,7 +126,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:text="@string/token_expired"
+        android:text="@{@string/token_expired(viewModel.tokenExpired)}"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewExpiresAt" />
@@ -142,7 +135,7 @@
         android:id="@+id/textViewIsLoggedIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/is_logged_in"
+        android:text="@{@string/is_logged_in(viewModel.isLoggedIn)}"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewIsTokenExpired" />
@@ -151,7 +144,7 @@
         android:id="@+id/textViewIsLoggedOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/is_logged_out"
+        android:text="@{@string/is_logged_out(viewModel.isLoggedOut)}"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewIsLoggedIn" />
@@ -160,7 +153,7 @@
         android:id="@+id/textViewIssuer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@{viewModel.iss}"
+        android:text="@{@string/issuer(viewModel.iss)}"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewIsLoggedOut"/>
@@ -174,15 +167,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewIssuer"/>
-
-    <Button
-        android:id="@+id/btnLogout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/logout"
-        android:layout_marginBottom="?attr/actionBarSize"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

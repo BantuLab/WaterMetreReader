@@ -37,7 +37,6 @@ public class AppActivity extends AppCompatActivity {
     private boolean mIsLoggedIn;
     private ActivityAppBinding mBinding;
     private boolean mIsTokenExpired;
-    //    private LiveData<Authorization> mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,15 +49,7 @@ public class AppActivity extends AppCompatActivity {
         mBottomNavigationView = findViewById(R.id.nav_bottom_nav_view);
         NavigationUI.setupWithNavController(mBottomNavigationView, mNavController);
 
-        if (Build.VERSION.SDK_INT>9){
-
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
-
         mAuthorizationViewModel = ViewModelProviders.of(this).get(AuthorizationViewModel.class);
-
-        mAuthorizationViewModel.init();
 
         mAuthorizationViewModel.getLoggedInUserAuth().observe(this, new Observer<Authorization>() {
             @Override
@@ -68,90 +59,56 @@ public class AppActivity extends AppCompatActivity {
                 mIsTokenExpired = authorization == null ? true : authorization.isTokenExpired();
                 if(!mIsLoggedIn || mIsTokenExpired){
                     if (authorization != null){
-                        if (authorization.isTokenExpired()){
-                        }
-                        Log.i("CurrentAuth", "mIsLoggedIn?: "+authorization.isLoggedIn());
-                        Log.i("CurrentAuth", "isTokenExpired?: "+authorization.isTokenExpired());
-                        Log.i("CurrentAuth", "tokenCurrentTime?: "+ Calendar.getInstance().getTime());
-                        Log.i("CurrentAuth", "tokenIssuedAt?: "+ authorization.getIat());
                         Log.i("CurrentAuth", "tokenExpiresAt?: "+ authorization.getExp());
                     }
                     mNavController.navigate(R.id.start_login);
                 }
             }
         });
-
-
-
-        //Observe changes to auth
-        mNavController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
-            @Override
-            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-                Log.i("onDestChanged", "newDestination: "+destination.getLabel());
-                if (destination.getId() != R.id.dest_login_fragment){
-                    if (!mIsLoggedIn || mIsTokenExpired){
-
-//                        controller.navigate(R.id.start_login);
-                    }
-                }
-                }
-
-        });
-
     }
 
     @Override
     public boolean onSupportNavigateUp() {
-        Log.i("onNavigateUp", "onSupportNavigateUp->IsLoggedIn?: "+ mIsLoggedIn);
         return Navigation.findNavController(this, R.id.app_nav_host_fragment).navigateUp();
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Log.i("onBackPressed", "onBackPressed->IsLoggedIn?: "+ mIsLoggedIn);
     }
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        Log.i("onPostCreate", "onPostCreate->IsLoggedIn?: "+ mIsLoggedIn);
     }
 
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        Log.i("onPostResume", "onPostResume->IsLoggedIn?: "+ mIsLoggedIn);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
-        Log.i("onStart", "onStart->IsLoggedIn?: "+ mIsLoggedIn);
     }
 
     @Override
     protected void onStop() {
-        Log.i("onStop", "onStop->IsLoggedIn?: "+ mIsLoggedIn);
         super.onStop();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.i("onDestroy", "onDestroy->IsLoggedIn?: "+ mIsLoggedIn);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.i("onPause", "onPause->IsLoggedIn?: "+ mIsLoggedIn);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i("onResume", "onResume->IsLoggedIn?: "+ mIsLoggedIn);
     }
 }

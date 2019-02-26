@@ -37,15 +37,16 @@
     <string name="userProfileImgDesc">User Profile Image</string>
     <string name="username">username</string>
     <string name="password">password</string>
-    <string name="user_id">user id</string>
-    <string name="token">token</string>
-    <string name="user_type">user type</string>
-    <string name="permissions">permissions</string>
-    <string name="issued_at">issued at</string>
-    <string name="expires_at">expires at</string>
-    <string name="is_logged_in">is logged in</string>
-    <string name="is_logged_out">is logged out</string>
-    <string name="audience">audience</string>
-    <string name="token_expired">token expired</string>
-    <string name="issuer">issuer</string>
+    <string name="user_id">user id: %1$s</string>
+    <string name="token">token: %1$s</string>
+    <string name="user_type">user type: %1$s</string>
+    <string name="permissions">permissions: %1$s</string>
+    <string name="issued_at">issued at: %1$s</string>
+    <string name="expires_at">expires at: %1$s</string>
+    <string name="is_logged_in">is logged in: %1$s</string>
+    <string name="is_logged_out">is logged out: %1$s</string>
+    <string name="audience">audience: %1$s</string>
+    <string name="token_expired">token expired: %1$s</string>
+    <string name="issuer">issuer: %1$s</string>
+    <string name="format">%1$td/%1$tm/%1$tY %l$thh:%l$tmm:%l$tss</string>
 </resources>

@@ -61,7 +61,6 @@ public class LogoutFragment extends Fragment {
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-//                        Navigation.findNavController(view).navigate(R.id.global_action_logout);
                         mAuthorizationViewModel.logoutCurrentUser();
                     }
                 })

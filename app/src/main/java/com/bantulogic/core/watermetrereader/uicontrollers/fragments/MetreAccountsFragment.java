@@ -57,7 +57,8 @@ public class MetreAccountsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //Initialize RecyclerView and Observe Metre Accounts Data From The ViewModel
-        observeSharedAuthorizationViewModel();
+//        mAuthorizationViewModel = ViewModelProviders.of(getActivity()).get(AuthorizationViewModel.class);
+//        observeSharedAuthorizationViewModel();
         initializeMetreAccountsRecyclerView(view);
 //        initializeMetreAccountViewModel();
 //        observeMetreAccountsData();
@@ -74,7 +75,6 @@ public class MetreAccountsFragment extends Fragment {
     }
 
     private void observeSharedAuthorizationViewModel(){
-        mAuthorizationViewModel = ViewModelProviders.of(getActivity()).get(AuthorizationViewModel.class);
         mAuthorizationViewModel.getLoggedInUserAuth().observe(this, new Observer<Authorization>() {
             @Override
             public void onChanged(Authorization authorization) {

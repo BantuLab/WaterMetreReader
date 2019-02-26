@@ -15,29 +15,18 @@ import androidx.lifecycle.MutableLiveData;
 public class AuthorizationViewModel extends AndroidViewModel {
 
     private AuthorizationRepository mAuthorizationRepository;
-
     private LiveData<Resource<Authorization>> mAuthorization;
-    private LiveData<Authorization> loggedInUserAuth;
 
     public AuthorizationViewModel(@NonNull Application application) {
         super(application);
         this.mAuthorizationRepository = new AuthorizationRepository(application);
-
-        Log.i("AuthViewModel","AuthorizationViewModel(application) called!");
     }
 
     public LiveData<Resource<Authorization>> login(String username, String password){
-
         this.mAuthorization = this.mAuthorizationRepository.login(username, password);
-
         return this.mAuthorization;
     }
-    public void init(){
-//        this.loggedInUserAuth = this.mAuthorizationRepository.getLoggedInUser();
-        mAuthorizationRepository.getLoggedInUser();
-    }
     public LiveData<Authorization> getLoggedInUserAuth() {
-//        return this.loggedInUserAuth;
         return mAuthorizationRepository.getAuthorizationResult();
     }
     public void logoutCurrentUser(){
