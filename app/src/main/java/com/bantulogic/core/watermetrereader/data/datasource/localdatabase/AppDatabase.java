@@ -19,10 +19,11 @@ import androidx.room.DatabaseConfiguration;
 import androidx.room.InvalidationTracker;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
-@Database(entities = {User.class, MetreAccount.class, MetreReading.class, Customer.class, Authorization.class}, version = 1)
+@Database(entities = {User.class, MetreAccount.class, MetreReading.class, Customer.class, Authorization.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase INSTANCE;
 
@@ -39,6 +40,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(
                             context.getApplicationContext(), AppDatabase.class, "metre_reader_db")
                             .addCallback(sRoomDatabaseCallback)
+                            .addMigrations(MIGRATION_1_2)
                             .fallbackToDestructiveMigration()
                             .build();
                 }
@@ -52,64 +54,13 @@ public abstract class AppDatabase extends RoomDatabase {
                 @Override
                 public void onOpen(@NonNull SupportSQLiteDatabase db) {
                     super.onOpen(db);
-                    //new populateDbAsync(INSTANCE).execute();
                 }
 
                 @Override
                 public void onCreate(@NonNull SupportSQLiteDatabase db) {
                     super.onCreate(db);
-                    //Setup the DB with some test data
-                    //When the MetreReaderApp is in production we will initialize this with the data from the
-                    //Backend via REST API
-                   // new initializeDbAsync(INSTANCE).execute();
                 }
             };
-
-    private static class populateDbAsync extends AsyncTask<Void, Void, Void> {
-        private final UserDAO mUserDAO;
-        private final MetreReadingDAO mMetreReadingDAO;
-        private final MetreAccountDAO mMetreAccountDAO;
-        private final CustomerDAO mCustomerDAO;
-        private final AuthorizationDAO mAuthorizationDAO;
-
-        public populateDbAsync(AppDatabase dbInstance) {
-            mUserDAO = dbInstance.userDAO();
-            mMetreReadingDAO = dbInstance.metreReadingDAO();
-            mMetreAccountDAO = dbInstance.metreAccountDAO();
-            mCustomerDAO = dbInstance.customerDAO();
-            mAuthorizationDAO = dbInstance.mAuthorizationDAO();
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            //Do the inserts from the REST API or from mocks
-            return null;
-        }
-    }
-
-    private static class initializeDbAsync extends AsyncTask<Void, Void, Void> {
-        private final UserDAO mUserDAO;
-        private final MetreReadingDAO mMetreReadingDAO;
-        private final MetreAccountDAO mMetreAccountDAO;
-        private final CustomerDAO mCustomerDAO;
-        private final AuthorizationDAO mAuthorizationDAO;
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            //Do the inserts from the REST API or from mocks
-            return null;
-        }
-
-
-        public initializeDbAsync(AppDatabase dbInstance){
-            mCustomerDAO = dbInstance.customerDAO();
-            mUserDAO = dbInstance.userDAO();
-            mMetreReadingDAO = dbInstance.metreReadingDAO();
-            mMetreAccountDAO = dbInstance.metreAccountDAO();
-            mAuthorizationDAO = dbInstance.mAuthorizationDAO();
-
-        }
-    }
 
     @NonNull
     @Override
@@ -122,5 +73,55 @@ public abstract class AppDatabase extends RoomDatabase {
     protected SupportSQLiteOpenHelper createOpenHelper(DatabaseConfiguration config) {
         return null;
     }
-
+    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            //Migration when a column is removed
+            //Step1: Create new temp table
+            database.execSQL(
+                    "CREATE TABLE Authorization_New(" +
+                            "username TEXT NOT NULL, " +
+                            "password TEXT NOT NULL, " +
+                            "user_id TEXT NOT NULL, " +
+                            "token TEXT, " +
+                            "user_type TEXT, " +
+                            "scope TEXT, " +
+                            "iat INTEGER, " +
+                            "exp INTEGER, " +
+                            "aud TEXT, " +
+                            "iss TEXT, " +
+                            "logged_in INTEGER NOT NULL, " +
+                            "PRIMARY KEY(username))"
+            );
+            //Step2: Copy Data
+            database.execSQL("INSERT INTO Authorization_New(" +
+                    "username," +
+                    "password," +
+                    "user_id," +
+                    "token," +
+                    "user_type," +
+                    "scope," +
+                    "iat," +
+                    "exp," +
+                    "aud," +
+                    "iss," +
+                    "logged_in)" +
+                    "SELECT " +
+                    "username," +
+                    "password," +
+                    "user_id," +
+                    "token," +
+                    "user_type," +
+                    "scope," +
+                    "iat," +
+                    "exp," +
+                    "aud," +
+                    "iss," +
+                    "logged_in FROM Authorization");
+            //Step3: Remove the old data
+            database.execSQL("DROP TABLE Authorization");
+            //Step4: Rename temp table
+            database.execSQL("ALTER TABLE Authorization_New RENAME TO Authorization");
+        }
+    };
 }

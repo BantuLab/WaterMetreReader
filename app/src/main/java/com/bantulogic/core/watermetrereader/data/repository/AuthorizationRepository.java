@@ -70,7 +70,6 @@ public class AuthorizationRepository {
                             exp,
                             aud,
                             iss,
-                            loggedOut,
                             loggedIn
                     );
                     mAuthorizationDAO.insertAuth(auth);
@@ -108,7 +107,6 @@ public class AuthorizationRepository {
         if (this.mAuthorization != null){
             AppExecutors.getInstance().getDiskIO().execute(()->{
                 Authorization mAuthorizationObj = this.mAuthorization.getValue();
-                mAuthorizationObj.setLoggedOut(true);
                 mAuthorizationObj.setLoggedIn(false);
                 mAuthorizationDAO.logoutCurrentUser(mAuthorizationObj);
             });

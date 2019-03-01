@@ -88,16 +88,10 @@ public  class Authorization{
     @ColumnInfo(name = "iss")
     private String iss;
 
-    @SerializedName("loggedOut")
-    @Expose
-    @ColumnInfo(name = "logged_out")
-    private boolean loggedOut;
-
     @SerializedName("loggedIn")
     @Expose
     @ColumnInfo(name = "logged_in")
     private boolean loggedIn;
-
 
     public Authorization(
             String username,
@@ -110,7 +104,6 @@ public  class Authorization{
             Date exp,
             List<String> aud,
             String iss,
-            boolean loggedOut,
             boolean loggedIn) {
         this.username = username;
         this.password = password;
@@ -122,24 +115,12 @@ public  class Authorization{
         this.exp = exp;
         this.aud = aud;
         this.iss = iss;
-        this.loggedOut = loggedOut;
         this.loggedIn = loggedIn;
-
     }
 
 
     public boolean isTokenExpired(){
         return this.exp.before(Calendar.getInstance().getTime());
-    }
-    public boolean isInvalidToken(){
-        return this.isTokenExpired() || !this.isLoggedIn();
-    }
-    public boolean isLoggedOut(){
-        return this.loggedOut;
-    }
-
-    public void setLoggedOut(boolean loggedOut) {
-        this.loggedOut = loggedOut;
     }
 
     public void setLoggedIn(boolean loggedIn) {

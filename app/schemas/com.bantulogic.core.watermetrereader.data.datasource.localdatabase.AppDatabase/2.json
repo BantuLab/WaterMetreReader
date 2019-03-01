@@ -1,0 +1,433 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "4170092da66935273b68262ec7fa6e85",
+    "entities": [
+      {
+        "tableName": "User",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`user_id` TEXT NOT NULL, `username` TEXT, `first_name` TEXT, `last_name` TEXT, `sex` TEXT, `date_of_birth` INTEGER, `user_type` TEXT, `user_role` TEXT, `last_update` INTEGER, PRIMARY KEY(`user_id`))",
+        "fields": [
+          {
+            "fieldPath": "mUserId",
+            "columnName": "user_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mUsername",
+            "columnName": "username",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mFirstName",
+            "columnName": "first_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mLastName",
+            "columnName": "last_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mSex",
+            "columnName": "sex",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mDateOfBirth",
+            "columnName": "date_of_birth",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mUserType",
+            "columnName": "user_type",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mUserRole",
+            "columnName": "user_role",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mLastUpdate",
+            "columnName": "last_update",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "user_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "MetreAccount",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`metre_id` INTEGER NOT NULL, `customer_id` TEXT, `street_address` TEXT, `city` TEXT, `province` TEXT, `country` TEXT, `gps_coordinates` TEXT, `gps_latitude` REAL NOT NULL, `gps_longitude` REAL NOT NULL, `assigned_user_id` TEXT, PRIMARY KEY(`metre_id`), FOREIGN KEY(`customer_id`) REFERENCES `Customer`(`id`) ON UPDATE CASCADE ON DELETE CASCADE , FOREIGN KEY(`assigned_user_id`) REFERENCES `User`(`user_id`) ON UPDATE CASCADE ON DELETE SET NULL )",
+        "fields": [
+          {
+            "fieldPath": "mMetreId",
+            "columnName": "metre_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mCustomerId",
+            "columnName": "customer_id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mMetreStreetAddress",
+            "columnName": "street_address",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mCity",
+            "columnName": "city",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mProvince",
+            "columnName": "province",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mCountry",
+            "columnName": "country",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mGpsCoordinates",
+            "columnName": "gps_coordinates",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mGpsLatitude",
+            "columnName": "gps_latitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mGpsLongitude",
+            "columnName": "gps_longitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mAssignedUserId",
+            "columnName": "assigned_user_id",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "metre_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_MetreAccount_customer_id",
+            "unique": true,
+            "columnNames": [
+              "customer_id"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_MetreAccount_customer_id` ON `${TABLE_NAME}` (`customer_id`)"
+          },
+          {
+            "name": "index_MetreAccount_assigned_user_id",
+            "unique": true,
+            "columnNames": [
+              "assigned_user_id"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_MetreAccount_assigned_user_id` ON `${TABLE_NAME}` (`assigned_user_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Customer",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "customer_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "User",
+            "onDelete": "SET NULL",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "assigned_user_id"
+            ],
+            "referencedColumns": [
+              "user_id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "MetreReading",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`reading_id` TEXT NOT NULL, `metre_id` INTEGER NOT NULL, `date_of_reading` INTEGER, `start_reading` INTEGER NOT NULL, `end_reading` INTEGER NOT NULL, `consumption` INTEGER NOT NULL, `reading_gps_coordinates` TEXT, `reading_gps_latitude` REAL NOT NULL, `reading_gps_longitude` REAL NOT NULL, `reading_recorded_by` TEXT, `time_reading_recorded` INTEGER, PRIMARY KEY(`reading_id`), FOREIGN KEY(`metre_id`) REFERENCES `MetreAccount`(`metre_id`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "mReadingId",
+            "columnName": "reading_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mMetreId",
+            "columnName": "metre_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mDateOfReading",
+            "columnName": "date_of_reading",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mStartReading",
+            "columnName": "start_reading",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mEndReading",
+            "columnName": "end_reading",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mConsumption",
+            "columnName": "consumption",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mReadingGpsCoordinates",
+            "columnName": "reading_gps_coordinates",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mReadingGpsLatitude",
+            "columnName": "reading_gps_latitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mReadingGpsLongitude",
+            "columnName": "reading_gps_longitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mReadingRecordedBy",
+            "columnName": "reading_recorded_by",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mTimeReadingRecorded",
+            "columnName": "time_reading_recorded",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "reading_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_MetreReading_metre_id",
+            "unique": true,
+            "columnNames": [
+              "metre_id"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_MetreReading_metre_id` ON `${TABLE_NAME}` (`metre_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "MetreAccount",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "metre_id"
+            ],
+            "referencedColumns": [
+              "metre_id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Customer",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT, `t_pin` TEXT, `street_address` TEXT, `city` TEXT, `province` TEXT, `country` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "mCustomerId",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mName",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mTaxPin",
+            "columnName": "t_pin",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mMetreStreetAddress",
+            "columnName": "street_address",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mCity",
+            "columnName": "city",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mProvince",
+            "columnName": "province",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mCountry",
+            "columnName": "country",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Authorization",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`username` TEXT NOT NULL, `password` TEXT NOT NULL, `user_id` TEXT NOT NULL, `token` TEXT, `user_type` TEXT, `scope` TEXT, `iat` INTEGER, `exp` INTEGER, `aud` TEXT, `iss` TEXT, `logged_in` INTEGER NOT NULL, PRIMARY KEY(`username`))",
+        "fields": [
+          {
+            "fieldPath": "username",
+            "columnName": "username",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "password",
+            "columnName": "password",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sub",
+            "columnName": "user_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "token",
+            "columnName": "token",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "userType",
+            "columnName": "user_type",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "scope",
+            "columnName": "scope",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "iat",
+            "columnName": "iat",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "exp",
+            "columnName": "exp",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "aud",
+            "columnName": "aud",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "iss",
+            "columnName": "iss",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "loggedIn",
+            "columnName": "logged_in",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "username"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"4170092da66935273b68262ec7fa6e85\")"
+    ]
+  }
+}
