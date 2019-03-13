@@ -49,4 +49,5 @@
     <string name="token_expired">token expired: %1$s</string>
     <string name="issuer">issuer: %1$s</string>
     <string name="format">%1$td/%1$tm/%1$tY %l$thh:%l$tmm:%l$tss</string>
+    <string name="msg_token_fmt">Device Id: %1$s</string>
 </resources>

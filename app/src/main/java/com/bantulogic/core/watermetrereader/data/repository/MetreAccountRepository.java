@@ -30,20 +30,17 @@ public class MetreAccountRepository {
     private Call<List<MetreAccount>> mGetMetreAccountsByUser;
     private MutableLiveData<List<MetreAccount>> mMetreAccountsFromWebAPI = new MutableLiveData<>();
 
-    //Application Global State Variables
-    private LiveData<Authorization> mAuthorization = MetreReaderApp.getLoggedInUserAuthorization();
-
     //Constructor
     public MetreAccountRepository(Application application){
         //Local API Initialization
         AppDatabase db = AppDatabase.getDatabase(application);
 
         mMetreAccountDAO = db.metreAccountDAO();
-        mAllMetreAccounts = mMetreAccountDAO.getAllMetreAccountsByUser(mAuthorization.getValue().getSub());
+        mAllMetreAccounts = mMetreAccountDAO.getAllMetreAccountsByUser("");
 
         //Web API Initialization
-        mMetreAccountWebAPI = ServiceGenerator.createService(MetreAccountWebAPI.class, mAuthorization.getValue().getToken());
-        mGetMetreAccountsByUser = mMetreAccountWebAPI.getMetreAccountsByUser(mAuthorization.getValue().getSub());
+        mMetreAccountWebAPI = ServiceGenerator.createService(MetreAccountWebAPI.class, "");
+        mGetMetreAccountsByUser = mMetreAccountWebAPI.getMetreAccountsByUser("");
     }
 
     //region METRE ACCOUNT API IMPLEMENTATION

@@ -32,4 +32,7 @@ public class AuthorizationViewModel extends AndroidViewModel {
     public void logoutCurrentUser(){
         this.mAuthorizationRepository.logoutCurrentUser();
     }
+    public void loginCurrentUser(Authorization authorization){
+        this.mAuthorizationRepository.loginCurrentUser(authorization);
+    }
 }

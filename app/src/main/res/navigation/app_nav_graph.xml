@@ -9,6 +9,7 @@
         android:id="@+id/start_login"
         app:destination="@+id/login_flow"
         app:launchSingleTop="true"
+        app:popUpToInclusive="true"
         app:popUpTo="@+id/dest_login_fragment" />
     <!--Global Finish Login Action-->
     <action

@@ -16,19 +16,26 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.bantulogic.core.watermetrereader.data.datasource.localdatabase.entities.Authorization;
 import com.bantulogic.core.watermetrereader.R;
 import com.bantulogic.core.watermetrereader.databinding.ActivityAppBinding;
 import com.bantulogic.core.watermetrereader.viewmodels.AuthorizationViewModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessagingService;
 
 import java.util.Calendar;
 
 import androidx.navigation.ui.NavigationUI;
 
 public class AppActivity extends AppCompatActivity {
+    private static final String TAG = "onCreate";
     public AuthorizationViewModel mAuthorizationViewModel;
     public  @Nullable Authorization mAuthorization;
     private NavController mNavController;
@@ -41,6 +48,25 @@ public class AppActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Log FCM Device ID for this App
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "getInstanceId failed", task.getException());
+                            return;
+                        }
+
+                        // Get new Instance ID token
+                        String token = task.getResult().getToken();
+
+                        // Log and toast
+                        String msg = getString(R.string.msg_token_fmt, token);
+                        Log.d(TAG, msg);
+                        Toast.makeText(AppActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_app);
 
         mNavHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.app_nav_host_fragment);
@@ -62,6 +88,9 @@ public class AppActivity extends AppCompatActivity {
                         Log.i("CurrentAuth", "tokenExpiresAt?: "+ authorization.getExp());
                     }
                     mNavController.navigate(R.id.start_login);
+                }
+                else {
+                    mNavController.popBackStack();
                 }
             }
         });

@@ -13,17 +13,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service android:name=".uicontrollers.adapters.MetreReaderSyncService"
+        <service
+            android:name=".data.datasource.network.helpers.ApiFcmService"
+            android:enabled="true"
             android:exported="true"
-            android:process=":sync">
+            >
             <intent-filter>
-                <action
-                    android:name="android.content.SyncAdapter"
-                    />
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
-            <meta-data android:name="android.content.SyncAdapter"
-                android:resource="@xml/syncadapter"/>
         </service>
+        <!--<service android:name=".uicontrollers.adapters.MetreReaderSyncService"-->
+            <!--android:exported="true"-->
+            <!--android:process=":sync">-->
+            <!--<intent-filter>-->
+                <!--<action-->
+                    <!--android:name="android.content.SyncAdapter"-->
+                    <!--/>-->
+            <!--</intent-filter>-->
+            <!--<meta-data android:name="android.content.SyncAdapter"-->
+                <!--android:resource="@xml/syncadapter"/>-->
+        <!--</service>-->
         
         <activity android:name=".uicontrollers.activities.AppActivity" android:screenOrientation="portrait" android:configChanges="keyboardHidden">
             <intent-filter>

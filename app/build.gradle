@@ -26,8 +26,8 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    dataBinding{
-        enabled=true
+    dataBinding {
+        enabled = true
     }
 }
 
@@ -38,13 +38,16 @@ dependencies {
     def navigation_version = "1.0.0-alpha08"
     def work_version = "1.0.0-alpha13"
     def oktthp3_logging_version = "3.13.1"
+    def firebase_core_version = "16.0.7"
+    def firebase_messaging_version="17.4.0"
+
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
-    //ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version"
     implementation "androidx.paging:paging-runtime:$paging_version"
     implementation "androidx.room:room-runtime:$room_version"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0-alpha1'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-alpha1'
+    implementation 'com.google.firebase:firebase-messaging:17.3.2'
     annotationProcessor "androidx.room:room-compiler:$room_version"
     implementation "android.arch.work:work-runtime:$work_version"
     implementation "android.arch.navigation:navigation-fragment:$navigation_version"
@@ -58,11 +61,16 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.auth0.android:jwtdecode:1.2.0'
     implementation "com.squareup.okhttp3:logging-interceptor:$oktthp3_logging_version"
+    implementation "com.google.firebase:firebase-messaging:$firebase_messaging_version"
+    implementation "com.google.firebase:firebase-core:$firebase_core_version"
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     testImplementation "androidx.room:room-testing:$room_version"
 }
+apply plugin: 'com.google.gms.google-services'
+
 //configurations.all {
 //    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
 //        def requested = details.requested

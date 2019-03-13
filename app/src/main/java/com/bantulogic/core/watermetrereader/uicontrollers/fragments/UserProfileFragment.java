@@ -19,11 +19,6 @@ import com.bantulogic.core.watermetrereader.viewmodels.UserProfileViewModel;
 
 public class UserProfileFragment extends Fragment {
 
-    private UserProfileViewModel mUserProfileViewModel;
-    private static final String userId =  MetreReaderApp.getLoggedInUserAuthorization().getValue().getSub().toString();
-    //Application Global State Variables
-    private Authorization mAuthorization;
-
     public static UserProfileFragment newInstance() {
         return new UserProfileFragment();
     }
@@ -37,14 +32,6 @@ public class UserProfileFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mUserProfileViewModel = ViewModelProviders.of(this).get(UserProfileViewModel.class);
-        mUserProfileViewModel.init(userId);
-
-        mUserProfileViewModel.getUser().observe(this, user -> {
-            //Update the ui here: note we have use a lambda expression here as jdk 1.8
-            //Every time the user profile data is updated, the onChanged() callback is invoked,
-            //and the UI is refreshed.
-        });
     }
 
 }

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "737566249308",
+    "firebase_url": "https://water-meter-reader-a9db4.firebaseio.com",
+    "project_id": "water-meter-reader-a9db4",
+    "storage_bucket": "water-meter-reader-a9db4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:737566249308:android:b9635a1f9e5e8037",
+        "android_client_info": {
+          "package_name": "com.bantulogic.core.watermetrereader"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "737566249308-vc0sfbqsgoi1t4cgl29stjfen95sgjv1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bantulogic.core.watermetrereader",
+            "certificate_hash": "b7774a68e32948265a5aad0ff5a67ee6338984e4"
+          }
+        },
+        {
+          "client_id": "737566249308-a2idld2ehc8n8633ft55krglkbj7c2hf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNQ0QwA-6Zkb-DYgWvRXOtKBQ-Lu04LRc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "737566249308-a2idld2ehc8n8633ft55krglkbj7c2hf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

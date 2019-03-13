@@ -80,8 +80,7 @@ public class AuthorizationRepository {
 
             @Override
             protected boolean shouldFetch(@Nullable Authorization data) {
-                //Apply logic to check when to fetch, set RateLimiter
-                return true;
+                return data == null ? true: data.isTokenExpired();
             }
 
             @NonNull
@@ -109,6 +108,14 @@ public class AuthorizationRepository {
                 Authorization mAuthorizationObj = this.mAuthorization.getValue();
                 mAuthorizationObj.setLoggedIn(false);
                 mAuthorizationDAO.logoutCurrentUser(mAuthorizationObj);
+            });
+        }
+    }
+    public void loginCurrentUser(Authorization authorization){
+        if (this.mAuthorization != null){
+            AppExecutors.getInstance().getDiskIO().execute(()->{
+                authorization.setLoggedIn(true);
+                mAuthorizationDAO.loginCurrentUser(authorization);
             });
         }
     }

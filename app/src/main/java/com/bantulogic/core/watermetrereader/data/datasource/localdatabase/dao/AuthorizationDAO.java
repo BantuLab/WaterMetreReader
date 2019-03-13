@@ -24,6 +24,9 @@ public interface AuthorizationDAO {
     @Update
     void logoutCurrentUser(Authorization authorization);
 
+    @Update
+    void loginCurrentUser(Authorization authorization);
+
     @Delete
     void invalidateAuth(Authorization authorization);
 
