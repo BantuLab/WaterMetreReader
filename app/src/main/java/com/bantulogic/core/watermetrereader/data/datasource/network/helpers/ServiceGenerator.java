@@ -10,16 +10,14 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceGenerator {
-    public static final String API_BASE_URL = "http://metre-reader.bantulabtech.com/";
+//    public static final String API_BASE_URL = "http://metre-reader.bantulabtech.com/";
+    public static final String API_BASE_URL = "http://localhost:3000/";
 
     private static HttpLoggingInterceptor mHttpLoggingInterceptor = new HttpLoggingInterceptor()
             .setLevel(HttpLoggingInterceptor.Level.BODY);
 
     private static OkHttpClient.Builder sOkHttpClient = new OkHttpClient.Builder()
             .addInterceptor(mHttpLoggingInterceptor);
-
-
-
 
     private static Retrofit.Builder sBuilder =
             new Retrofit.Builder()

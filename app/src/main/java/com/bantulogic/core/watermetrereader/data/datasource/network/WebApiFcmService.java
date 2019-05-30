@@ -1,11 +1,11 @@
-package com.bantulogic.core.watermetrereader.data.datasource.network.helpers;
+package com.bantulogic.core.watermetrereader.data.datasource.network;
 
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-public class ApiFcmService extends FirebaseMessagingService {
+public class WebApiFcmService extends FirebaseMessagingService {
     private static String TAG = "ApiFCM";
 
     @Override
@@ -26,8 +26,6 @@ public class ApiFcmService extends FirebaseMessagingService {
                 // Handle message within 10 seconds
                 // handleNow(); //Only for short tasks
             }
-
-
         }
 
         // Check if message contains a notification payload. Chances I will only be receving notifi
@@ -55,6 +53,10 @@ public class ApiFcmService extends FirebaseMessagingService {
     }
 
     private void sendRegistrationToServer(String token) {
-
+        //Call Background Service to:
+        /*
+         * 1. Insert new token into Room
+         * 2. Trigger Sync Job to send the new token to the server
+         */
     }
 }

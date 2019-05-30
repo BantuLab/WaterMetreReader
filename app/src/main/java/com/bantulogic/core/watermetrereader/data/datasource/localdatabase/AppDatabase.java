@@ -4,11 +4,13 @@ import android.os.AsyncTask;
 
 import com.bantulogic.core.watermetrereader.data.datasource.localdatabase.dao.AuthorizationDAO;
 import com.bantulogic.core.watermetrereader.data.datasource.localdatabase.dao.CustomerDAO;
+import com.bantulogic.core.watermetrereader.data.datasource.localdatabase.dao.FcmTokenDAO;
 import com.bantulogic.core.watermetrereader.data.datasource.localdatabase.dao.MetreAccountDAO;
 import com.bantulogic.core.watermetrereader.data.datasource.localdatabase.dao.MetreReadingDAO;
 import com.bantulogic.core.watermetrereader.data.datasource.localdatabase.dao.UserDAO;
 import com.bantulogic.core.watermetrereader.data.datasource.localdatabase.entities.Authorization;
 import com.bantulogic.core.watermetrereader.data.datasource.localdatabase.entities.Customer;
+import com.bantulogic.core.watermetrereader.data.datasource.localdatabase.entities.FcmToken;
 import com.bantulogic.core.watermetrereader.data.datasource.localdatabase.entities.MetreAccount;
 import com.bantulogic.core.watermetrereader.data.datasource.localdatabase.entities.MetreReading;
 import com.bantulogic.core.watermetrereader.data.datasource.localdatabase.entities.User;
@@ -23,7 +25,7 @@ import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
-@Database(entities = {User.class, MetreAccount.class, MetreReading.class, Customer.class, Authorization.class}, version = 2)
+@Database(entities = {User.class, MetreAccount.class, MetreReading.class, Customer.class, Authorization.class, FcmToken.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase INSTANCE;
 
@@ -32,6 +34,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract MetreReadingDAO metreReadingDAO();
     public abstract CustomerDAO customerDAO();
     public abstract AuthorizationDAO mAuthorizationDAO();
+    public abstract FcmTokenDAO fcmTokenDAO();
 
     public static AppDatabase getDatabase(final Context context){
         if (INSTANCE == null){

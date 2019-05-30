@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service
-            android:name=".data.datasource.network.helpers.ApiFcmService"
+            android:name=".data.datasource.network.AuthorizationWebAPI$ApiFcmService"
             android:enabled="true"
             android:exported="true"
             >
